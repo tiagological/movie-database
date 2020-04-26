@@ -1,46 +1,10 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
-const axios = require('axios');
-
 dotenv.config();
-
 const port = process.env.PORT || 1234;
-
 const app = express();
+const routes = require('./routes');
 
-app.get('/api/movies', async (req, res) => {
-  try {
-    const response = await axios.get(
-      `${process.env.API_URL}/discover/movie?sort_by=popularity.desc&api_key=${process.env.API_KEY}`
-    );
-    if (!response) {
-      return res.sendStatus(400);
-    }
-
-    res.status(200).send(response.data);
-  } catch (err) {
-    console.log(err);
-    res
-      .status(500)
-      .send({ message: 'Unable to get movies due to an internal error' });
-  }
-});
-
-app.get('/api/configuration', async (req, res) => {
-  try {
-    const response = await axios.get(
-      `${process.env.API_URL}/configuration?api_key=${process.env.API_KEY}`
-    );
-
-    if (!response) {
-      return res.sendStatus(400);
-    }
-
-    res.status(200).send(response.data);
-  } catch (err) {
-    return res.sendStatus(500);
-  }
-});
+app.use('/api', routes);
 
 app.listen(port, () => console.log(`> App listening on port ${port}`));
