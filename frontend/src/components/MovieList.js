@@ -13,6 +13,7 @@ export const MovieList = ({ movies, secure_base_url }) => {
         title={title}
         poster_path={poster_path}
         base_url={base_url}
+        id={id}
       />
     );
   });

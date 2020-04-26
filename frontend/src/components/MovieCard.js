@@ -1,21 +1,30 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import styled from 'styled-components/macro';
 
-export const MovieCard = ({ title, poster_path, base_url }) => {
+export const MovieCard = ({ id, poster_path, base_url }) => {
   return (
-    <StyledCard>
-      <CardActionArea>
-        <ImageWrapper>
-          <OuterContainer>
-            <InnerContainer>
-              <Image src={`${base_url}w342${poster_path}`} />
-            </InnerContainer>
-          </OuterContainer>
-        </ImageWrapper>
-      </CardActionArea>
-    </StyledCard>
+    <Link
+      to={{
+        pathname: `/movie/${id}`,
+        state: {
+          base_url,
+        },
+      }}>
+      <StyledCard>
+        <CardActionArea>
+          <ImageWrapper>
+            <OuterContainer>
+              <InnerContainer>
+                <Image src={`${base_url}w342${poster_path}`} />
+              </InnerContainer>
+            </OuterContainer>
+          </ImageWrapper>
+        </CardActionArea>
+      </StyledCard>
+    </Link>
   );
 };
 
