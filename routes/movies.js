@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const axios = require('axios');
-const bodyParser = require('body-parser');
 
 router.get('/movie/:movieId', async (req, res) => {
   const { movieId } = req.params;
