@@ -1,10 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { createGlobalStyle } from 'styled-components';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Home, Movie } from './screens';
+import GlobalContext from './context';
 
 function App() {
+  const [errors, setErrors] = useState('');
+
   return (
+    <GlobalContext.Provider
+      value={{
+        errors,
+        setErrors,
+      }}>
     <Router>
       <Switch>
         <Route exact path='/'>
@@ -15,6 +23,7 @@ function App() {
         </Route>
       </Switch>
     </Router>
+    </GlobalContext.Provider>
   );
 }
 
