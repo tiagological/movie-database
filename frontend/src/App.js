@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { createGlobalStyle } from 'styled-components';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { Home, Movie } from './screens';
+import { Home, Movie, SignUp, Login, Dashboard } from './screens';
 import GlobalContext from './context';
 
 function App() {
@@ -14,16 +14,25 @@ function App() {
         setErrors,
       }}>
       <GlobalStyle />
-    <Router>
-      <Switch>
-        <Route exact path='/'>
-          <Home />
-        </Route>
-        <Route path='/movie/:movieId'>
-          <Movie />
-        </Route>
-      </Switch>
-    </Router>
+      <Router>
+        <Switch>
+          <Route exact path='/'>
+            <Home />
+          </Route>
+          <Route path='/movie/:movieId'>
+            <Movie />
+          </Route>
+          <Route path='/signup'>
+            <SignUp />
+          </Route>
+          <Route path='/login'>
+            <Login />
+          </Route>
+          <Route path='/dashboard'>
+            <Dashboard />
+          </Route>
+        </Switch>
+      </Router>
     </GlobalContext.Provider>
   );
 }
