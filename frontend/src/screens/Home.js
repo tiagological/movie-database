@@ -8,7 +8,7 @@ export const Home = () => {
 
   useEffect(() => {
     async function getConfig() {
-      const response = await axios.get('/api/configuration');
+      const response = await axios.get('/api/movies/configuration');
       const {
         data: { images },
       } = response;
