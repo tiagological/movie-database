@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 import { Layout, MovieList } from '../components';
 import axios from 'axios';
 
@@ -31,15 +33,40 @@ export const Home = () => {
   }, []);
 
   return (
-    <div>
+    <Container>
       <Layout>
         {config?.secure_base_url && initialMovies && (
-          <MovieList
-            movies={initialMovies}
-            secure_base_url={config.secure_base_url}
-          />
+          <>
+            <LinkContainer>
+              <StyledLink to='/login'>Log in</StyledLink>
+              <StyledLink to='/signup'>Sign Up</StyledLink>
+            </LinkContainer>
+            <MovieList
+              movies={initialMovies}
+              secure_base_url={config.secure_base_url}
+            />
+          </>
         )}
       </Layout>
-    </div>
+    </Container>
   );
 };
+
+const Container = styled.div`
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+`;
+
+const LinkContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+`;
+
+const StyledLink = styled(Link)`
+  padding: 10px;
+  background-color: buttonface;
+`;
