@@ -13,6 +13,7 @@ function App() {
         errors,
         setErrors,
       }}>
+      <GlobalStyle />
     <Router>
       <Switch>
         <Route exact path='/'>
