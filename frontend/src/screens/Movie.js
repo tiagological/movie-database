@@ -14,7 +14,7 @@ export const Movie = () => {
 
   useEffect(() => {
     const getMovieInfo = async (movie_id) => {
-      const response = await axios.get(`/api/movie/${movie_id}`);
+      const response = await axios.get(`/api/movies/movie/${movie_id}`);
 
       const { data } = response;
       setMovieInfo(data);
