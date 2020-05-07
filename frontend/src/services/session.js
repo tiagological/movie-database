@@ -1,12 +1,14 @@
 import * as apiUtil from '../util/session';
 
-export const login = async (user) => {
+export const login = async (user, setErrors, setSession) => {
   const response = await apiUtil.login(user);
   const data = await response.json();
   if (response.ok) {
-    return data;
+    setErrors('');
+    setSession(data);
+    return;
   }
-  return data;
+  setErrors(data.message);
 };
 
 export const signup = async (user, setErrors, setSession) => {

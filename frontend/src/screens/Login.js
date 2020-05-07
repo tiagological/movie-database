@@ -1,11 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import GlobalContext from '../context';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
+import { login } from '../services/session';
 
 export const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const { errors, setErrors, setSession } = useContext(GlobalContext);
 
   const clearForm = () => {
     setEmail('');
@@ -18,13 +22,14 @@ export const Login = () => {
       email: e.target[0].value,
       password: e.target[1].value,
     };
-    console.log(user);
+    login(user, setErrors, setSession);
     clearForm();
   };
 
   return (
     <Container>
       <Title>Login</Title>
+      <ErrorText>{errors}</ErrorText>
       <Form onSubmit={handleSubmit}>
         <Label>
           <LabelText>Email:</LabelText>
@@ -59,6 +64,11 @@ const Container = styled.div`
 
 const Title = styled.h1`
   text-align: center;
+`;
+
+const ErrorText = styled.p`
+  padding: 10px;
+  color: red;
 `;
 
 const Form = styled.form`
