@@ -47,6 +47,6 @@ app.use(
 );
 app.use('/api/movies', movieRoutes);
 app.use('/api/users', userRoutes);
-app.use('api/session', sessionRoutes);
+app.use('/api/session', sessionRoutes);
 
 app.listen(PORT, () => console.log(`> App listening on port ${PORT}`));
