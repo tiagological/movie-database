@@ -31,6 +31,10 @@ export const MovieCard = ({ id, poster_path, base_url }) => {
 const StyledCard = styled(Card)`
   width: 45vw;
   margin: 1rem 0;
+
+  @media screen and (min-width: 1024px) {
+    width: 15vw;
+  }
 `;
 
 const ImageWrapper = styled.div`
