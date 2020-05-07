@@ -48,14 +48,22 @@ export const Movie = () => {
   );
 
   return (
-    <div>
+    <Container>
       <Layout>
         {moviePoster}
         {MovieData}
       </Layout>
-    </div>
+    </Container>
   );
 };
+
+const Container = styled.div`
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+`;
 
 const ImageWrapper = styled.div`
   position: relative;
