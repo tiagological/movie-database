@@ -14,7 +14,7 @@ export const Movie = () => {
 
   useEffect(() => {
     const getMovieInfo = async (movie_id) => {
-      const response = await axios.get(`/api/movie/${movie_id}`);
+      const response = await axios.get(`/api/movies/movie/${movie_id}`);
 
       const { data } = response;
       setMovieInfo(data);
@@ -48,14 +48,22 @@ export const Movie = () => {
   );
 
   return (
-    <div>
+    <Container>
       <Layout>
         {moviePoster}
         {MovieData}
       </Layout>
-    </div>
+    </Container>
   );
 };
+
+const Container = styled.div`
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+`;
 
 const ImageWrapper = styled.div`
   position: relative;

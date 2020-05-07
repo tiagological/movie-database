@@ -1,108 +1,37 @@
-const express = require('express');
+import express from 'express';
+import Joi from '@hapi/joi';
+import User from '../models/user';
+import { signUp } from '../validations/user';
+import { parseError, sessionizeUser } from '../util/helpers';
+
 const router = express.Router();
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const keys = require('../config/keys');
 
-const validateRegisterInput = require('../validation/register');
+router.post('', async (req, res) => {
+  try {
+    const { username, email, password } = req.body;
 
-const validateLoginInput = require('../validation/login');
+    await signUp.validateAsync({ username, email, password });
 
-const User = require('../models/User');
+    const newUser = new User({ username, email, password });
 
-// @route POST api/users/register
-// @desc Register user
-// @access Public
+    const sessionUser = sessionizeUser(newUser);
 
-router.post('/register', (req, res) => {
-  const { name, email, password } = req.body;
+    await newUser.save();
 
-  const { errors, isValid } = validateRegisterInput(req.body);
+    req.session.user = sessionUser;
+    res.send(sessionUser);
+  } catch (err) {
+    console.log(err);
 
-  // validation
-
-  if (!isValid) {
-    return res.status(400).json(errors);
-  }
-
-  // find user via email
-
-  User.findOne({ email }).then((user) => {
-    if (user) {
-      return res.status(400).json({ email: 'Email already exists' });
-    } else {
-      const newUser = new User({
-        name,
-        email,
-        password,
-      });
-
-      // hash password before storing in db
-
-      bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(newUser.password, salt, (err, hash) => {
-          if (err) throw err;
-          newUser.password = hash;
-          newUser
-            .save()
-            .then((user) => res.json(user))
-            .catch((err) => console.log(err));
-        });
-      });
-    }
-  });
-});
-
-// @route POST api/users/login
-// @desc Login user and return JWT token
-// @access Public
-
-router.post('/login', (req, res) => {
-  const { email, password } = req.body;
-
-  // Validate form data
-  const { errors, isValid } = validateLoginInput(req.body);
-
-  // validation
-  if (!isValid) {
-    return res.status(400).json(errors);
-  }
-
-  // find user via email
-  User.findOne({ email }).then((user) => {
-    if (!user) {
-      return res.status(404).json({ emailnotfound: 'Email not found' });
-    }
-
-    // check password
-    bcrypt.compare(password, user.password).then((isMatch) => {
-      if (isMatch) {
-        // create JWT Payload if user matches
-        const payload = {
-          id: user.id,
-          name: user.name,
-        };
-        // sign token
-        jwt.sign(
-          payload,
-          keys.secretOrKey,
-          {
-            expiresIn: 31556926, // 1 year in seconds
-          },
-          (err, token) => {
-            res.json({
-              success: true,
-              token: 'Bearer ' + token,
-            });
-          }
-        );
-      } else {
-        return res
-          .status(400)
-          .json({ passwordincorrect: 'Password incorrect' });
+    if (Joi.isError(err)) {
+      err.isJoi = true;
+      if (err._original.password) {
+        delete err._original.password;
       }
-    });
-  });
+    }
+
+    res.status(400).send(parseError(err));
+  }
 });
 
-module.exports = router;
+export default router;

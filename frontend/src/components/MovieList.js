@@ -25,7 +25,10 @@ const Container = styled.div`
   padding: 0.75rem;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(45vw, 45vw));
-  -webkit-box-pack: justify;
-  justify-content: space-between;
+  justify-content: space-evenly;
   gap: 0.25rem;
+
+  @media screen and (min-width: 1024px) {
+    grid-template-columns: repeat(auto-fill, minmax(15vw, 15vw));
+  }
 `;

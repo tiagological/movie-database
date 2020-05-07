@@ -1,45 +1,80 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 import { Layout, MovieList } from '../components';
 import axios from 'axios';
+import { useQuery } from 'react-query';
 
 export const Home = () => {
-  const [config, setConfig] = useState(null);
-  const [initialMovies, setInitialMovies] = useState(null);
+  const getConfig = async () => {
+    const response = await axios.get('/api/movies/configuration');
+    const {
+      data: { images },
+    } = response;
+    return images;
+  };
 
-  useEffect(() => {
-    async function getConfig() {
-      const response = await axios.get('/api/configuration');
-      const {
-        data: { images },
-      } = response;
-      setConfig(images);
-    }
+  const getPopularMovies = async () => {
+    const response = await axios.get('/api/movies');
+    const {
+      data: { results },
+    } = response;
+    return results;
+  };
 
-    getConfig();
-  }, []);
+  const {
+    status: configStatus,
+    data: configData,
+    error: configError,
+  } = useQuery('movie-config', getConfig, {
+    staleTime: 1000 * 60 * 30,
+    refetchOnWindowFocus: false,
+  });
 
-  useEffect(() => {
-    async function getPopularMovies() {
-      const response = await axios.get('/api/movies');
-      const {
-        data: { results },
-      } = response;
-      setInitialMovies(results);
-    }
-
-    getPopularMovies();
-  }, []);
+  const {
+    status: initialMoviesStatus,
+    data: initialMoviesData,
+    error: initialMoviesError,
+  } = useQuery('initial-movies', getPopularMovies, {
+    staleTime: 1000 * 60 * 30,
+    refetchOnWindowFocus: false,
+  });
 
   return (
-    <div>
+    <Container>
       <Layout>
-        {config?.secure_base_url && initialMovies && (
-          <MovieList
-            movies={initialMovies}
-            secure_base_url={config.secure_base_url}
-          />
+        {configData?.secure_base_url && initialMoviesData && (
+          <>
+            <LinkContainer>
+              <StyledLink to='/login'>Log in</StyledLink>
+              <StyledLink to='/signup'>Sign Up</StyledLink>
+            </LinkContainer>
+            <MovieList
+              movies={initialMoviesData}
+              secure_base_url={configData.secure_base_url}
+            />
+          </>
         )}
       </Layout>
-    </div>
+    </Container>
   );
 };
+
+const Container = styled.div`
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+`;
+
+const LinkContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+`;
+
+const StyledLink = styled(Link)`
+  padding: 10px;
+  background-color: buttonface;
+`;
