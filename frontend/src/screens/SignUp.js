@@ -10,7 +10,7 @@ export const SignUp = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const { errors, setErrors } = useContext(GlobalContext);
+  const { errors, setErrors, setSession } = useContext(GlobalContext);
 
   const clearForm = () => {
     setUsername('');
@@ -25,7 +25,7 @@ export const SignUp = () => {
       email: e.target[1].value,
       password: e.target[2].value,
     };
-    signup(user, setErrors);
+    signup(user, setErrors, setSession);
     clearForm();
   };
 

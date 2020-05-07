@@ -8,13 +8,15 @@ export const login = async (user) => {
   }
   return data;
 };
-export const signup = async (user, setErrors) => {
+
+export const signup = async (user, setErrors, setSession) => {
   const response = await apiUtil.signup(user);
   const data = await response.json();
 
   if (response.ok) {
     setErrors('');
-    return data;
+    setSession(data);
+    return;
   }
   setErrors(data.message);
 };
