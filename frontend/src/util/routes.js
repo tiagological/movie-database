@@ -7,8 +7,6 @@ export const AuthRoute = ({ path, component: Component }) => {
 
   const loggedIn = !!session.userId;
 
-  debugger;
-
   return (
     <Route
       path={path}
@@ -23,8 +21,6 @@ export const ProtectedRoute = ({ path, component: Component }) => {
   const { session } = useContext(GlobalContext);
 
   const loggedIn = !!session.userId;
-
-  debugger;
 
   return (
     <Route
