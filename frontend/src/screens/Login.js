@@ -38,6 +38,7 @@ export const Login = () => {
             name='email'
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            required
           />
         </Label>
         <Label>
@@ -47,6 +48,7 @@ export const Login = () => {
             name='password'
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
           />
         </Label>
         <Submit type='submit' value='Submit' />
