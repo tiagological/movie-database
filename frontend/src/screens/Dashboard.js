@@ -1,13 +1,23 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import GlobalContext from '../context';
 import styled from 'styled-components/macro';
+import { logout } from '../services/session';
 
-export const Dashboard = ({ logout, session = { username: 'Tiago' } }) => (
-  <Container>
-    <Title>Hi {session.username}</Title>
-    <p style={{ textAlign: 'center' }}>You are now logged in!</p>
-    <Button onClick={logout}>Logout</Button>
-  </Container>
-);
+export const Dashboard = () => {
+  const { session, setSession, setErrors } = useContext(GlobalContext);
+
+  const handleLogout = () => {
+    logout(setSession, setErrors);
+  };
+
+  return (
+    <Container>
+      <Title>Hi {session.username}</Title>
+      <p style={{ textAlign: 'center' }}>You are now logged in!</p>
+      <Button onClick={handleLogout}>Logout</Button>
+    </Container>
+  );
+};
 
 const Container = styled.div`
   display: flex;

@@ -22,11 +22,13 @@ export const signup = async (user, setErrors, setSession) => {
   }
   setErrors(data.message);
 };
-export const logout = async () => {
+
+export const logout = async (setSession, setErrors) => {
   const response = await apiUtil.logout();
   const data = await response.json();
   if (response.ok) {
-    return data;
+    setSession({ userId: null, username: null });
+    return;
   }
-  return data;
+  setErrors(data.message);
 };
