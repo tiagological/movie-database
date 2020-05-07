@@ -18,6 +18,7 @@ router.post('', async (req, res) => {
       const sessionUser = sessionizeUser(user);
 
       req.session.user = sessionUser;
+      res.send(sessionUser);
     } else {
       throw new Error('Invalid login credentials');
     }
