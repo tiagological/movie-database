@@ -1,36 +1,47 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { createGlobalStyle } from 'styled-components';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Home, Movie, SignUp, Login, Dashboard } from './screens';
+import { AuthRoute, ProtectedRoute } from './util/routes';
+import { checkLoggedIn } from './util/session';
 import GlobalContext from './context';
 
 function App() {
+  const [isLoading, setIsLoading] = useState(true);
   const [errors, setErrors] = useState('');
+  const [session, setSession] = useState({ userId: null, username: null });
+
+  useEffect(() => {
+    const checkLoggedInState = async () => {
+      const preLoadedState = await checkLoggedIn();
+      if (Object.keys(preLoadedState).length > 0) {
+        setSession(preLoadedState);
+      }
+      setIsLoading(false);
+    };
+    checkLoggedInState();
+  }, []);
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <GlobalContext.Provider
       value={{
         errors,
         setErrors,
+        session,
+        setSession,
       }}>
       <GlobalStyle />
       <Router>
         <Switch>
-          <Route exact path='/'>
-            <Home />
-          </Route>
-          <Route path='/movie/:movieId'>
-            <Movie />
-          </Route>
-          <Route path='/signup'>
-            <SignUp />
-          </Route>
-          <Route path='/login'>
-            <Login />
-          </Route>
-          <Route path='/dashboard'>
-            <Dashboard />
-          </Route>
+          <Route exact path='/' component={Home} />
+          <Route path='/movie/:movieId' component={Movie} />
+          <AuthRoute path='/signup' component={SignUp} />
+          <AuthRoute path='/login' component={Login} />
+          <ProtectedRoute path='/dashboard' component={Dashboard} />
         </Switch>
       </Router>
     </GlobalContext.Provider>
