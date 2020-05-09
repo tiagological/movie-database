@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import GlobalContext from '../context';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
@@ -11,6 +11,12 @@ export const SignUp = () => {
   const [password, setPassword] = useState('');
 
   const { errors, setErrors, setSession } = useContext(GlobalContext);
+
+  useEffect(() => {
+    if (errors) {
+      setErrors('');
+    }
+  }, []);
 
   const clearForm = () => {
     setUsername('');
