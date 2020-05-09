@@ -15,7 +15,7 @@ function App() {
     const checkLoggedInState = async () => {
       const preLoadedState = await checkLoggedIn();
       if (Object.keys(preLoadedState).length > 0) {
-        setSession(preLoadedState);
+        setSession(preLoadedState.session);
       }
       setIsLoading(false);
     };
@@ -57,7 +57,6 @@ const GlobalStyle = createGlobalStyle`
     
     box-sizing: border-box;
 	  font-family: 'Montserrat', sans-serif;
-    background: #fafafa;
   }
   *, *:before, *:after {
   box-sizing: inherit;
