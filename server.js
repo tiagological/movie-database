@@ -1,8 +1,8 @@
 import express from 'express';
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 import session from 'express-session';
 import connectStore from 'connect-mongo';
-const dotenv = require('dotenv');
+import dotenv from 'dotenv';
 import {
   PORT,
   NODE_ENV,
