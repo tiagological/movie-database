@@ -3,6 +3,7 @@ import * as apiUtil from '../util/session';
 export const login = async (user, setErrors, setSession) => {
   const response = await apiUtil.login(user);
   const data = await response.json();
+
   if (response.ok) {
     setErrors('');
     setSession(data);
