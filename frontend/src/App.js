@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from 'styled-components/macro';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Home, Movie, SignUp, Login, Dashboard } from './screens';
 import { AuthRoute, ProtectedRoute } from './util/routes';
@@ -50,6 +50,7 @@ function App() {
 
 const GlobalStyle = createGlobalStyle`
   html, body {
+    font-size: 62.5%;
     margin: 0;
     height: 100vh;
     width: 100%;
@@ -61,10 +62,28 @@ const GlobalStyle = createGlobalStyle`
   *, *:before, *:after {
   box-sizing: inherit;
     }
+
   #root {
     height: 100%;
     width: 100%;
   }
+
+  h1 {
+    font-size: 3.2rem;
+  }
+
+  h2 {
+    font-size: 2.4rem;
+  }
+
+  p, span, a {
+    font-size: 1.6rem;
+  }
+
+  input, label {
+    font-size: 2rem
+  }
+
   a {
     text-decoration: none;
     color: inherit;
