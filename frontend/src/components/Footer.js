@@ -20,5 +20,5 @@ const Container = styled.footer`
 `;
 
 const Text = styled.span`
-  font-size: 1rem;
+  color: #fff;
 `;
