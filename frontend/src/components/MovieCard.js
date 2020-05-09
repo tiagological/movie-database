@@ -1,7 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
 import styled from 'styled-components/macro';
 
 export const MovieCard = ({ id, poster_path, base_url }) => {
@@ -14,21 +12,19 @@ export const MovieCard = ({ id, poster_path, base_url }) => {
         },
       }}>
       <StyledCard>
-        <CardActionArea>
-          <ImageWrapper>
-            <OuterContainer>
-              <InnerContainer>
-                <Image src={`${base_url}w342${poster_path}`} />
-              </InnerContainer>
-            </OuterContainer>
-          </ImageWrapper>
-        </CardActionArea>
+        <ImageWrapper>
+          <OuterContainer>
+            <InnerContainer>
+              <Image src={`${base_url}w342${poster_path}`} />
+            </InnerContainer>
+          </OuterContainer>
+        </ImageWrapper>
       </StyledCard>
     </Link>
   );
 };
 
-const StyledCard = styled(Card)`
+const StyledCard = styled.div`
   width: 45vw;
   margin: 1rem 0;
 
@@ -60,4 +56,5 @@ const Image = styled.img`
   height: 100%;
   width: 100%;
   object-fit: cover;
+  border-radius: 8px;
 `;
