@@ -5,7 +5,7 @@ import GlobalContext from '../context';
 export const AuthRoute = ({ path, component: Component }) => {
   const { session } = useContext(GlobalContext);
 
-  const loggedIn = !!session.userId;
+  const loggedIn = session && session.userId !== null;
 
   return (
     <Route
@@ -19,8 +19,7 @@ export const AuthRoute = ({ path, component: Component }) => {
 
 export const ProtectedRoute = ({ path, component: Component }) => {
   const { session } = useContext(GlobalContext);
-
-  const loggedIn = !!session.userId;
+  const loggedIn = session && session.userId !== null;
 
   return (
     <Route
