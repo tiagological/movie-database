@@ -23,7 +23,7 @@ router.post('', async (req, res) => {
       throw new Error('Invalid login credentials');
     }
   } catch (err) {
-    res.status(401).send(parseError(err));
+    res.status(401).send({ message: parseError(err) });
   }
 });
 
@@ -44,7 +44,7 @@ router.delete('', ({ session }, res) => {
       throw new Error('Something went wrong');
     }
   } catch (err) {
-    res.status(422).send(parseError(err));
+    res.status(422).send({ message: parseError(err) });
   }
 });
 
