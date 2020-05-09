@@ -11,7 +11,12 @@ import {
   SESS_SECRET,
   SESS_LIFETIME,
 } from './config';
-import { movieRoutes, userRoutes, sessionRoutes } from './routes';
+import {
+  movieRoutes,
+  userRoutes,
+  sessionRoutes,
+  watchListRoutes,
+} from './routes';
 
 dotenv.config();
 
@@ -48,5 +53,6 @@ app.use(
 app.use('/api/movies', movieRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/session', sessionRoutes);
+app.use('/api/watchlist', watchListRoutes);
 
 app.listen(PORT, () => console.log(`> App listening on port ${PORT}`));
