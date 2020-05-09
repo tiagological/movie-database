@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { Layout, MovieList } from '../components';
 import axios from 'axios';
 import { useQuery } from 'react-query';
@@ -66,6 +66,14 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  background: linear-gradient(
+    0deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(0, 0, 0, 1) 75%,
+    rgba(98, 98, 98, 1) 100%
+  );
+  background-repeat: no-repeat;
+  overflow: auto;
 `;
 
 const LinkContainer = styled.div`
