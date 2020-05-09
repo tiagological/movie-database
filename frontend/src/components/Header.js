@@ -15,4 +15,6 @@ const Container = styled.header`
   flex-shrink: 0;
 `;
 
-const Text = styled.h1``;
+const Text = styled.h1`
+  color: #fff;
+`;
