@@ -3,28 +3,44 @@ import { compareSync, hashSync } from 'bcryptjs';
 
 const Schema = mongoose.Schema;
 
+const MovieSchema = new Schema({
+  id: {
+    type: Number,
+    required: true,
+  },
+  title: {
+    type: String,
+    required: true,
+  },
+  poster_path: {
+    type: String,
+    required: true,
+  },
+  runtime: {
+    type: Number,
+    required: true,
+  },
+  release_date: {
+    type: String,
+    required: true,
+  },
+});
+
 const UserSchema = new Schema(
   {
     username: {
       type: String,
       required: true,
-      validate: {
-        validator: (username) => User.doesNotExist({ username }),
-        message: 'Username already exists',
-      },
     },
     email: {
       type: String,
       required: true,
-      validate: {
-        validator: (email) => User.doesNotExist({ email }),
-        message: 'Email already exists',
-      },
     },
     password: {
       type: String,
       required: true,
     },
+    watch_list: [MovieSchema],
   },
   { timestamps: true }
 );
