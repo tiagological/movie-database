@@ -3,6 +3,7 @@ import { useParams, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components/macro';
 import { Layout } from '../components';
+import { addToWatchList } from '../util/session';
 
 export const Movie = () => {
   const { movieId } = useParams();
@@ -22,6 +23,23 @@ export const Movie = () => {
 
     getMovieInfo(movieId);
   }, [movieId]);
+
+  const handleAddToWatchList = async () => {
+    const { id, title, poster_path, runtime, release_date } = movieInfo;
+    const movie = {
+      id,
+      title,
+      poster_path,
+      runtime,
+      release_date,
+    };
+    const response = await addToWatchList(movie);
+    const data = await response.json();
+    if (response.ok) {
+      return alert('Successfully added to watch list');
+    }
+    return alert(data.message);
+  };
 
   const moviePoster = movieInfo && (
     <ImageWrapper>
