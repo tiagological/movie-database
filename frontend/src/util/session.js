@@ -29,3 +29,12 @@ export const checkLoggedIn = async () => {
   }
   return preloadedState;
 };
+
+export const addToWatchList = (movie) =>
+  fetch(window.location.origin + '/api/watchlist', {
+    method: 'POST',
+    body: JSON.stringify(movie),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
