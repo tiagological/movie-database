@@ -68,8 +68,13 @@ export const Movie = () => {
   return (
     <Container>
       <Layout>
-        {moviePoster}
-        {MovieData}
+        <MovieDataContainer>
+          {moviePoster}
+          {MovieData}
+        </MovieDataContainer>
+        <ButtonContainer>
+          <Button onClick={handleAddToWatchList}>Add to watch list</Button>
+        </ButtonContainer>
       </Layout>
     </Container>
   );
@@ -81,12 +86,39 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  background: linear-gradient(
+    0deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(0, 0, 0, 1) 75%,
+    rgba(98, 98, 98, 1) 100%
+  );
+  background-repeat: no-repeat;
+  overflow: auto;
+`;
+
+const MovieDataContainer = styled.section`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  color: #fff;
+
+  @media screen and (min-width: 1024px) {
+    flex-direction: row;
+    padding: 0 5rem;
+  }
 `;
 
 const ImageWrapper = styled.div`
   position: relative;
-  padding: 1rem 0;
+  width: 100%;
+  padding: 1rem;
   margin: 0 2rem;
+
+  @media screen and (min-width: 1024px) {
+    width: auto;
+    flex-shrink: 0;
+  }
 `;
 
 const OuterContainer = styled.div`
@@ -94,6 +126,10 @@ const OuterContainer = styled.div`
   width: 100%;
   padding-bottom: 150%;
   position: relative;
+
+  @media screen and (min-width: 1024px) {
+    width: 300px;
+  }
 `;
 
 const InnerContainer = styled.div`
@@ -108,6 +144,7 @@ const Image = styled.img`
   height: 100%;
   width: 100%;
   object-fit: cover;
+  border-radius: 8px;
 `;
 
 const MovieInfoContainer = styled.section`
@@ -123,3 +160,24 @@ const Title = styled.h2``;
 const Description = styled.p``;
 
 const Duration = styled.span``;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+`;
+
+const Button = styled.button`
+  margin: 10px;
+  padding: 5px 0;
+  font-size: 20px;
+  background: transparent;
+  color: #fff;
+  border: 1px solid white;
+  border-radius: 8px;
+  outline: none;
+
+  :hover {
+    cursor: pointer;
+  }
+`;
