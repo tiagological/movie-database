@@ -5,11 +5,13 @@ import { Home, Movie, SignUp, Login, Dashboard } from './screens';
 import { AuthRoute, ProtectedRoute } from './util/routes';
 import { checkLoggedIn } from './util/session';
 import GlobalContext from './context';
+import axios from 'axios';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [errors, setErrors] = useState('');
   const [session, setSession] = useState({ userId: null, username: null });
+  const [movieBaseURL, setMovieBaseURL] = useState(null);
 
   useEffect(() => {
     const checkLoggedInState = async () => {
@@ -19,7 +21,22 @@ function App() {
       }
       setIsLoading(false);
     };
+
+    const getConfig = async () => {
+      const response = await axios.get('/api/movies/configuration');
+      const {
+        data: {
+          images: { base_url },
+        },
+      } = response;
+
+      if (base_url) {
+        setMovieBaseURL(base_url);
+      }
+    };
+
     checkLoggedInState();
+    getConfig();
   }, []);
 
   if (isLoading) {
@@ -33,6 +50,7 @@ function App() {
         setErrors,
         session,
         setSession,
+        movieBaseURL,
       }}>
       <GlobalStyle />
       <Router>
@@ -73,6 +91,10 @@ const GlobalStyle = createGlobalStyle`
 
   h2 {
     font-size: 2.4rem;
+  }
+
+  h3 {
+    font-size: 2.08rem;
   }
 
   p, span, a {
