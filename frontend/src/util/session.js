@@ -38,3 +38,6 @@ export const addToWatchList = (movie) =>
       'Content-Type': 'application/json',
     },
   });
+
+export const fetchWatchList = () =>
+  fetch(window.location.origin + '/api/watchlist/fetch');

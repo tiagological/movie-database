@@ -33,3 +33,18 @@ export const logout = async (setSession, setErrors) => {
   }
   setErrors(data.message);
 };
+
+export const fetchWatchList = async (setWatchList) => {
+  try {
+    const response = await apiUtil.fetchWatchList().catch((err) => {
+      throw err;
+    });
+    const data = await response.json();
+
+    if (response.ok) {
+      setWatchList(data);
+    }
+  } catch (err) {
+    throw err;
+  }
+};
