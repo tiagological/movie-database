@@ -31,7 +31,7 @@ export const checkLoggedIn = async () => {
 };
 
 export const addToWatchList = (movie) =>
-  fetch(window.location.origin + '/api/watchlist', {
+  fetch(window.location.origin + '/api/watchlist/add', {
     method: 'POST',
     body: JSON.stringify(movie),
     headers: {
