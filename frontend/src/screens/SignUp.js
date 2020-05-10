@@ -87,7 +87,7 @@ const Container = styled.div`
   align-items: stretch;
   background: linear-gradient(
     0deg,
-    rgba(2, 0, 36, 1) 0%,
+    rgba(0, 0, 0, 1) 0%,
     rgba(0, 0, 0, 1) 75%,
     rgba(98, 98, 98, 1) 100%
   );
