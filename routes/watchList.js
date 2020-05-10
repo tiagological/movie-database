@@ -14,7 +14,7 @@ router.post('', async (req, res) => {
     const sessionUser = session.user;
 
     if (sessionUser) {
-      const { username, userId } = sessionUser;
+      const { userId } = sessionUser;
 
       await watchList.validateAsync({
         id,
