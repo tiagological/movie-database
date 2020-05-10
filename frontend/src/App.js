@@ -11,6 +11,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [errors, setErrors] = useState('');
   const [session, setSession] = useState({ userId: null, username: null });
+  const [watchList, setWatchList] = useState([]);
   const [movieBaseURL, setMovieBaseURL] = useState(null);
 
   useEffect(() => {
@@ -50,6 +51,8 @@ function App() {
         setErrors,
         session,
         setSession,
+        watchList,
+        setWatchList,
         movieBaseURL,
       }}>
       <GlobalStyle />
