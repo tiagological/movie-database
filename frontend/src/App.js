@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { createGlobalStyle } from 'styled-components/macro';
+import styled, { createGlobalStyle } from 'styled-components/macro';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Home, Movie, SignUp, Login, Dashboard } from './screens';
 import { AuthRoute, ProtectedRoute } from './util/routes';
@@ -7,6 +7,7 @@ import { checkLoggedIn } from './util/session';
 import { fetchWatchList } from './services/session';
 import GlobalContext from './context';
 import axios from 'axios';
+import MoonLoader from 'react-spinners/MoonLoader';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -54,7 +55,13 @@ function App() {
   }, [session]);
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return (
+      <Container>
+        <LoaderContainer>
+          <MoonLoader color='#fff' css='opacity: 1;' />
+        </LoaderContainer>
+      </Container>
+    );
   }
 
   return (
