@@ -1,17 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
+import React, { useEffect, useState, useContext } from 'react';
+import GlobalContext from '../context';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components/macro';
 import { Layout } from '../components';
 import { addToWatchList } from '../util/session';
+import MoonLoader from 'react-spinners/MoonLoader';
 
 export const Movie = () => {
   const { movieId } = useParams();
-  const {
-    state: { base_url },
-  } = useLocation();
+  const { movieBaseURL, isLoggedIn, watchList } = useContext(GlobalContext);
 
   const [movieInfo, setMovieInfo] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [movieIsInWatchList, setMovieIsInWatchList] = useState(false);
 
   useEffect(() => {
     const getMovieInfo = async (movie_id) => {
@@ -23,6 +25,17 @@ export const Movie = () => {
 
     getMovieInfo(movieId);
   }, [movieId]);
+
+  useEffect(() => {
+    if (isLoggedIn && watchList.length > 0) {
+      const filteredMovies = watchList.filter((movie) => movie.id == movieId);
+
+      if (filteredMovies.length > 0) {
+        setMovieIsInWatchList(true);
+      }
+    }
+    setIsLoading(false);
+  }, [watchList]);
 
   const handleAddToWatchList = async () => {
     const { id, title, poster_path, runtime, release_date } = movieInfo;
@@ -45,7 +58,7 @@ export const Movie = () => {
     <ImageWrapper>
       <OuterContainer>
         <InnerContainer>
-          <Image src={`${base_url}w342${movieInfo?.poster_path}`} />
+          <Image src={`${movieBaseURL}w342${movieInfo?.poster_path}`} />
         </InnerContainer>
       </OuterContainer>
     </ImageWrapper>
@@ -62,8 +75,23 @@ export const Movie = () => {
       <Title>{movieInfo.title}</Title>
       <Duration>{formattedDuration}</Duration>
       <Description>{movieInfo.overview}</Description>
+      <ButtonContainer>
+        <Button onClick={handleAddToWatchList}>{`${
+          movieIsInWatchList ? 'Remove from' : 'Add to'
+        } watchlist`}</Button>
+      </ButtonContainer>
     </MovieInfoContainer>
   );
+
+  if (isLoading) {
+    return (
+      <Container>
+        <LoaderContainer>
+          <MoonLoader color='#fff' css='opacity: 1;' />
+        </LoaderContainer>
+      </Container>
+    );
+  }
 
   return (
     <Container>
@@ -72,9 +100,6 @@ export const Movie = () => {
           {moviePoster}
           {MovieData}
         </MovieDataContainer>
-        <ButtonContainer>
-          <Button onClick={handleAddToWatchList}>Add to watch list</Button>
-        </ButtonContainer>
       </Layout>
     </Container>
   );
@@ -168,8 +193,8 @@ const ButtonContainer = styled.div`
 `;
 
 const Button = styled.button`
-  margin: 10px;
-  padding: 5px 0;
+  margin: 1rem 0;
+  padding: 1.5rem 0;
   font-size: 20px;
   background: transparent;
   color: #fff;
@@ -180,4 +205,15 @@ const Button = styled.button`
   :hover {
     cursor: pointer;
   }
+
+  @media only screen and (min-width: 1024px) {
+    max-width: 400px;
+  }
+`;
+
+const LoaderContainer = styled.div`
+  margin-top: auto;
+  margin-bottom: auto;
+  display: flex;
+  justify-content: center;
 `;
