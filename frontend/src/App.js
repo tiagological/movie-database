@@ -16,6 +16,7 @@ function App() {
   const [session, setSession] = useState({ userId: null, username: null });
   const [watchList, setWatchList] = useState([]);
   const [movieBaseURL, setMovieBaseURL] = useState(null);
+  const [isMenuActive, setIsMenuActive] = useState(false);
 
   useEffect(() => {
     const checkLoggedInState = async () => {
@@ -76,6 +77,8 @@ function App() {
         watchList,
         setWatchList,
         movieBaseURL,
+        isMenuActive,
+        setIsMenuActive,
       }}>
       <GlobalStyle />
       <Router>
