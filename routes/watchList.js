@@ -33,7 +33,7 @@ router.get('/fetch', async (req, res) => {
     }
   } catch (err) {
     console.log(err);
-    res.status(400).send({ message: parseError(err) });
+    res.status(400).send(parseError(err));
   }
 });
 
@@ -76,7 +76,7 @@ router.post('/add', async (req, res) => {
     }
   } catch (err) {
     console.log(err);
-    res.status(400).send({ message: parseError(err) });
+    res.status(400).send(parseError(err));
   }
 });
 

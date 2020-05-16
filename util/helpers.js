@@ -1,6 +1,9 @@
 export const parseError = (err) => {
-  if (err.isJoi) return err.details[0];
-  return err.message;
+  if (err.isJoi) {
+    return err.details[0];
+  }
+
+  return { message: err.message };
 };
 
 export const sessionizeUser = (user) => {
