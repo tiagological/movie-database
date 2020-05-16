@@ -139,4 +139,27 @@ const GlobalStyle = createGlobalStyle`
   }
   `;
 
+const Container = styled.div`
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  background: linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 1) 75%,
+    rgba(98, 98, 98, 1) 100%
+  );
+  background-repeat: no-repeat;
+  overflow: auto;
+`;
+
+const LoaderContainer = styled.div`
+  margin-top: auto;
+  margin-bottom: auto;
+  display: flex;
+  justify-content: center;
+`;
+
 export default App;
