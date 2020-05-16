@@ -2,11 +2,10 @@ import React, { useContext, useEffect, useState } from 'react';
 import GlobalContext from '../context';
 import styled from 'styled-components/macro';
 import { Layout } from '../components';
-import { logout } from '../services/session';
-import { fetchWatchList } from '../services/session';
-import PacmanLoader from 'react-spinners/PacmanLoader';
+import { logout, fetchWatchList } from '../services/session';
+import MoonLoader from 'react-spinners/MoonLoader';
 import emptyListImage from '../assets/images/list-is-empty.png';
-import { FaUserCircle } from 'react-icons/fa';
+import { AiOutlineUser } from 'react-icons/ai';
 
 export const Dashboard = () => {
   const {
@@ -16,6 +15,7 @@ export const Dashboard = () => {
     watchList: watchListData,
     setWatchList,
     movieBaseURL,
+    setIsLoggedIn,
   } = useContext(GlobalContext);
 
   const [isLoading, setIsLoading] = useState(true);
@@ -29,13 +29,13 @@ export const Dashboard = () => {
   }, []);
 
   const handleLogout = () => {
-    logout(setSession, setErrors);
+    logout(setSession, setErrors, setIsLoggedIn);
   };
 
   const emptyListPlaceholder = (
     <EmptyListContainer>
       <EmptyListPlaceHolder src={emptyListImage} />
-      <Text>Your watch list currently empty</Text>
+      <Text>Your watch list is currently empty</Text>
     </EmptyListContainer>
   );
 
@@ -45,7 +45,7 @@ export const Dashboard = () => {
     } ${movie.runtime % 60} mins`;
 
     return (
-      <MovieDataContainer>
+      <MovieDataContainer key={movie.id}>
         <ImageWrapper>
           <OuterContainer>
             <InnerImgContainer>
@@ -67,7 +67,7 @@ export const Dashboard = () => {
     return (
       <Container>
         <LoaderContainer>
-          <PacmanLoader color='#fff' />
+          <MoonLoader color='#fff' />
         </LoaderContainer>
       </Container>
     );
@@ -133,7 +133,7 @@ const ImageWrapper = styled.div`
   position: relative;
   width: auto;
   flex-shrink: 0;
-  padding: 1rem;
+  padding: 1rem 0;
   margin: 0 2rem;
 `;
 
@@ -214,7 +214,7 @@ const UserContainer = styled.div`
   flex-direction: column;
   align-items: center;
 `;
-const UserAvatar = styled(FaUserCircle)`
+const UserAvatar = styled(AiOutlineUser)`
   color: #fff;
   width: 20vw;
   height: auto;
@@ -228,9 +228,9 @@ const Username = styled.span`
 `;
 
 const Button = styled.button`
-  margin: 10px;
-  padding: 5px 0;
-  font-size: 20px;
+  margin: 2rem;
+  padding: 1.5rem 0;
+  font-size: 2rem;
   background: transparent;
   border: 1px solid white;
   border-radius: 8px;
