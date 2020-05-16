@@ -4,6 +4,7 @@ import styled from 'styled-components/macro';
 import { Layout, MovieList } from '../components';
 import axios from 'axios';
 import { useQuery } from 'react-query';
+import MoonLoader from 'react-spinners/MoonLoader';
 
 export const Home = () => {
   const getConfig = async () => {
@@ -44,16 +45,10 @@ export const Home = () => {
     <Container>
       <Layout>
         {configData?.secure_base_url && initialMoviesData && (
-          <>
-            <LinkContainer>
-              <StyledLink to='/login'>Log in</StyledLink>
-              <StyledLink to='/signup'>Sign Up</StyledLink>
-            </LinkContainer>
-            <MovieList
-              movies={initialMoviesData}
-              secure_base_url={configData.secure_base_url}
-            />
-          </>
+          <MovieList
+            movies={initialMoviesData}
+            secure_base_url={configData.secure_base_url}
+          />
         )}
       </Layout>
     </Container>
@@ -76,13 +71,9 @@ const Container = styled.div`
   overflow: auto;
 `;
 
-const LinkContainer = styled.div`
+const LoaderContainer = styled.div`
+  margin-top: auto;
+  margin-bottom: auto;
   display: flex;
-  align-items: center;
-  justify-content: space-around;
-`;
-
-const StyledLink = styled(Link)`
-  padding: 10px;
-  background-color: buttonface;
+  justify-content: center;
 `;
