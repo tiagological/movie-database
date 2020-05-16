@@ -1,10 +1,11 @@
 import React from 'react';
 import styled from 'styled-components/macro';
-import { Header, Footer } from '../components';
+import { Header, NavMenu, Footer } from '../components';
 
 export const Layout = ({ children }) => {
   return (
     <Container>
+      <NavMenu />
       <Header />
       <Main>{children}</Main>
       <Footer />
