@@ -11,6 +11,7 @@ import axios from 'axios';
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [errors, setErrors] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [session, setSession] = useState({ userId: null, username: null });
   const [watchList, setWatchList] = useState([]);
   const [movieBaseURL, setMovieBaseURL] = useState(null);
@@ -20,6 +21,7 @@ function App() {
       const preLoadedState = await checkLoggedIn();
       if (Object.keys(preLoadedState).length > 0) {
         setSession(preLoadedState.session);
+        setIsLoggedIn(true);
       }
       setIsLoading(false);
     };
@@ -60,6 +62,8 @@ function App() {
       value={{
         errors,
         setErrors,
+        isLoggedIn,
+        setIsLoggedIn,
         session,
         setSession,
         watchList,
