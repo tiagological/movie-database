@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Home, Movie, SignUp, Login, Dashboard } from './screens';
 import { AuthRoute, ProtectedRoute } from './util/routes';
 import { checkLoggedIn } from './util/session';
+import { fetchWatchList } from './services/session';
 import GlobalContext from './context';
 import axios from 'axios';
 
@@ -39,6 +40,16 @@ function App() {
     checkLoggedInState();
     getConfig();
   }, []);
+
+  useEffect(() => {
+    if (session.userId && session.username) {
+      const handleFetchWatchList = async () => {
+        await fetchWatchList(setWatchList).catch((err) => console.log(err));
+        setIsLoading(false);
+      };
+      handleFetchWatchList();
+    }
+  }, [session]);
 
   if (isLoading) {
     return <p>Loading...</p>;
