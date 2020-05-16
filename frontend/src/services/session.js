@@ -1,14 +1,16 @@
 import * as apiUtil from '../util/session';
 
-export const login = async (user, setErrors, setSession) => {
+export const login = async (user, setErrors, setSession, setLoggedIn) => {
   const response = await apiUtil.login(user);
   const data = await response.json();
 
   if (response.ok) {
     setErrors('');
     setSession(data);
+    setLoggedIn(true);
     return;
   }
+  debugger;
   setErrors(data.message);
 };
 
@@ -24,11 +26,12 @@ export const signup = async (user, setErrors, setSession) => {
   setErrors(data.message);
 };
 
-export const logout = async (setSession, setErrors) => {
+export const logout = async (setSession, setErrors, setIsLoggedIn) => {
   const response = await apiUtil.logout();
   const data = await response.json();
   if (response.ok) {
     setSession({ userId: null, username: null });
+    setIsLoggedIn(false);
     return;
   }
   setErrors(data.message);
