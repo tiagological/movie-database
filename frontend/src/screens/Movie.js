@@ -10,11 +10,15 @@ import MoonLoader from 'react-spinners/MoonLoader';
 export const Movie = () => {
   const { movieId } = useParams();
   const { movieBaseURL, isLoggedIn, watchList } = useContext(GlobalContext);
+    setCurrentScreen,
 
   const [movieInfo, setMovieInfo] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [movieIsInWatchList, setMovieIsInWatchList] = useState(false);
 
+  useEffect(() => {
+    setCurrentScreen('movie');
+  }, []);
   useEffect(() => {
     const getMovieInfo = async (movie_id) => {
       const response = await axios.get(`/api/movies/movie/${movie_id}`);
