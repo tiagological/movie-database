@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled, { createGlobalStyle } from 'styled-components/macro';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Home, Movie, SignUp, Login, Dashboard } from './screens';
+import { Toast } from './components';
 import { AuthRoute, ProtectedRoute } from './util/routes';
 import { checkLoggedIn } from './util/session';
 import { fetchWatchList } from './services/session';
@@ -17,6 +18,11 @@ function App() {
   const [watchList, setWatchList] = useState([]);
   const [movieBaseURL, setMovieBaseURL] = useState(null);
   const [isMenuActive, setIsMenuActive] = useState(false);
+  const [toastStatus, setToastStatus] = useState({
+    isActive: false,
+    type: null,
+    message: null,
+  });
 
   useEffect(() => {
     const checkLoggedInState = async () => {
@@ -79,8 +85,11 @@ function App() {
         movieBaseURL,
         isMenuActive,
         setIsMenuActive,
+        toastStatus,
+        setToastStatus,
       }}>
       <GlobalStyle />
+      <Toast />
       <Router>
         <Switch>
           <Route exact path='/' component={Home} />
