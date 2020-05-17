@@ -4,13 +4,19 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components/macro';
 import { Layout } from '../components';
-import { addToWatchList } from '../util/session';
+import { addToWatchList, removeFromWatchList } from '../util/session';
 import MoonLoader from 'react-spinners/MoonLoader';
 
 export const Movie = () => {
   const { movieId } = useParams();
-  const { movieBaseURL, isLoggedIn, watchList } = useContext(GlobalContext);
+  const {
+    movieBaseURL,
+    isLoggedIn,
+    watchList,
+    setWatchList,
+    setToastStatus,
     setCurrentScreen,
+  } = useContext(GlobalContext);
 
   const [movieInfo, setMovieInfo] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -19,6 +25,9 @@ export const Movie = () => {
   useEffect(() => {
     setCurrentScreen('movie');
   }, []);
+
+  // get movie info
+
   useEffect(() => {
     const getMovieInfo = async (movie_id) => {
       const response = await axios.get(`/api/movies/movie/${movie_id}`);
@@ -30,18 +39,29 @@ export const Movie = () => {
     getMovieInfo(movieId);
   }, [movieId]);
 
+  // check if movie is on user watch list
+
   useEffect(() => {
     if (isLoggedIn && watchList.length > 0) {
       const filteredMovies = watchList.filter((movie) => movie.id == movieId);
 
       if (filteredMovies.length > 0) {
         setMovieIsInWatchList(true);
+      } else {
+        setMovieIsInWatchList(false);
       }
     }
     setIsLoading(false);
   }, [watchList]);
 
   const handleAddToWatchList = async () => {
+    if (!isLoggedIn) {
+      return setToastStatus({
+        isActive: true,
+        type: 'error',
+        message: 'Please log in to add to your watch list',
+      });
+    }
     const { id, title, poster_path, runtime, release_date } = movieInfo;
     const movie = {
       id,
@@ -53,9 +73,55 @@ export const Movie = () => {
     const response = await addToWatchList(movie);
     const data = await response.json();
     if (response.ok) {
-      return alert('Successfully added to watch list');
+      setToastStatus({
+        isActive: true,
+        type: 'success',
+        message: 'Added to watch list!',
+      });
+      setWatchList([...watchList, data]);
+      return;
     }
-    return alert(data.message);
+    return setToastStatus({
+      isActive: true,
+      type: 'error',
+      message: data.message,
+    });
+  };
+
+  const handleRemoveFromWatchList = async () => {
+    if (!isLoggedIn) {
+      return setToastStatus({
+        isActive: true,
+        type: 'error',
+        message: 'Please log in to remove from your watch list',
+      });
+    }
+    const { id } = movieInfo;
+    const response = await removeFromWatchList(id);
+    const data = await response.json();
+    if (response.ok) {
+      setToastStatus({
+        isActive: true,
+        type: 'success',
+        message: 'Removed from watch list',
+      });
+      const updatedWatchList = watchList.filter((movie) => movie.id !== id);
+      setWatchList(updatedWatchList);
+      return;
+    }
+    return setToastStatus({
+      isActive: true,
+      type: 'error',
+      message: data.message,
+    });
+  };
+
+  const handleMovieOperation = () => {
+    if (movieIsInWatchList) {
+      handleRemoveFromWatchList();
+    } else {
+      handleAddToWatchList();
+    }
   };
 
   const moviePoster = movieInfo && (
@@ -80,7 +146,7 @@ export const Movie = () => {
       <Duration>{formattedDuration}</Duration>
       <Description>{movieInfo.overview}</Description>
       <ButtonContainer>
-        <Button onClick={handleAddToWatchList}>{`${
+        <Button onClick={handleMovieOperation}>{`${
           movieIsInWatchList ? 'Remove from' : 'Add to'
         } watchlist`}</Button>
       </ButtonContainer>
