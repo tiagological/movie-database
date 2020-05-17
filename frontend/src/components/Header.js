@@ -5,9 +5,12 @@ import styled from 'styled-components/macro';
 import { ReactComponent as Logo } from '../assets/images/logo.svg';
 
 export const Header = () => {
-  const { isLoggedIn, isMenuActive, setIsMenuActive } = useContext(
-    GlobalContext
-  );
+  const {
+    isLoggedIn,
+    isMenuActive,
+    setIsMenuActive,
+    currentScreen,
+  } = useContext(GlobalContext);
 
   const toggleNavbar = () => {
     setIsMenuActive(!isMenuActive);
@@ -21,15 +24,26 @@ export const Header = () => {
           <StyledLogo />
         </Link>
         <DesktopLinksContainer>
-          <DesktopLink to='/'>home</DesktopLink>
+          <DesktopLink to='/' isActive={currentScreen === 'home'}>
+            home
+          </DesktopLink>
           {!isLoggedIn && (
             <>
-              <DesktopLink to='/login'>login</DesktopLink>
-              <DesktopLink to='/signup'>signup</DesktopLink>
+              <DesktopLink to='/login' isActive={currentScreen === 'login'}>
+                login
+              </DesktopLink>
+              <DesktopLink to='/signup' isActive={currentScreen === 'signup'}>
+                signup
+              </DesktopLink>
             </>
           )}
-          {isLoggedIn && <DesktopLink to='/dashboard'>dashboard</DesktopLink>}
+          {isLoggedIn && (
             <DesktopLink
+              to='/dashboard'
+              isActive={currentScreen === 'dashboard'}>
+              dashboard
+            </DesktopLink>
+          )}
         </DesktopLinksContainer>
         <HamburgerContainer onClick={toggleNavbar}>
           <HamburgerIconContainer isMenuActive={isMenuActive}>
@@ -102,7 +116,7 @@ const DesktopLink = styled(Link)`
     bottom: -1rem;
     border-radius: 10px;
     height: 3px;
-    width: 0;
+    width: ${({ isActive }) => (isActive ? '100%' : 0)};
     background: linear-gradient(90deg, paleturquoise, turquoise);
     transition: 300ms ease;
   }
