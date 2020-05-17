@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useContext } from 'react';
+import GlobalContext from '../context';
 import styled from 'styled-components/macro';
 import { Layout, MovieList } from '../components';
 import axios from 'axios';
@@ -7,6 +7,12 @@ import { useQuery } from 'react-query';
 import MoonLoader from 'react-spinners/MoonLoader';
 
 export const Home = () => {
+  const { setCurrentScreen } = useContext(GlobalContext);
+
+  useEffect(() => {
+    setCurrentScreen('home');
+  }, []);
+
   const getConfig = async () => {
     const response = await axios.get('/api/movies/configuration');
     const {
