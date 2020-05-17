@@ -23,6 +23,7 @@ function App() {
     type: null,
     message: null,
   });
+  const [currentScreen, setCurrentScreen] = useState(null);
 
   useEffect(() => {
     const checkLoggedInState = async () => {
@@ -87,6 +88,8 @@ function App() {
         setIsMenuActive,
         toastStatus,
         setToastStatus,
+        currentScreen,
+        setCurrentScreen,
       }}>
       <GlobalStyle />
       <Toast />
