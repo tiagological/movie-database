@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import GlobalContext from '../context';
 import { Link } from 'react-router-dom';
 import { Layout } from '../components';
@@ -10,9 +10,17 @@ export const Login = () => {
   const [password, setPassword] = useState('');
   const [isSubmitting, setSubmitting] = useState(false);
 
-  const { errors, setErrors, setSession, setIsLoggedIn } = useContext(
-    GlobalContext
-  );
+  const {
+    errors,
+    setErrors,
+    setSession,
+    setIsLoggedIn,
+    setCurrentScreen,
+  } = useContext(GlobalContext);
+
+  useEffect(() => {
+    setCurrentScreen('login');
+  }, []);
 
   const clearForm = () => {
     setEmail('');

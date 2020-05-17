@@ -11,7 +11,13 @@ export const SignUp = () => {
   const [password, setPassword] = useState('');
   const [isSubmitting, setSubmitting] = useState(false);
 
-  const { errors, setErrors, setSession } = useContext(GlobalContext);
+  const { errors, setErrors, setSession, setCurrentScreen } = useContext(
+    GlobalContext
+  );
+
+  useEffect(() => {
+    setCurrentScreen('signup');
+  }, []);
 
   useEffect(() => {
     if (errors) {
