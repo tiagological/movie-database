@@ -72,7 +72,39 @@ router.post('/add', async (req, res) => {
 
       res.send(movie_data);
     } else {
-      throw new Error('Unable to add to watchlist');
+      throw new Error('Please log in to add to your watch list');
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(400).send(parseError(err));
+  }
+});
+
+router.post('/remove', async (req, res) => {
+  try {
+    // movie id
+    const { id } = req.body;
+
+    const { session } = req;
+
+    const sessionUser = session.user;
+
+    if (sessionUser) {
+      const { userId } = sessionUser;
+
+      const doc = await User.findOneAndUpdate(
+        { _id: userId, 'watch_list.id': id },
+        { $pull: { watch_list: { id: id } } },
+        { new: true }
+      );
+
+      if (doc === null) {
+        throw new Error('Unable to find movie in watch list');
+      }
+
+      res.send({ message: 'Successfully removed from watch list' });
+    } else {
+      throw new Error('Please log in to remove from your watch list');
     }
   } catch (err) {
     console.log(err);
