@@ -39,5 +39,14 @@ export const addToWatchList = (movie) =>
     },
   });
 
+export const removeFromWatchList = (movieId) =>
+  fetch(window.location.origin + '/api/watchlist/remove', {
+    method: 'POST',
+    body: JSON.stringify({ id: movieId }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
 export const fetchWatchList = () =>
   fetch(window.location.origin + '/api/watchlist/fetch');
