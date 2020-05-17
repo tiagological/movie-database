@@ -16,9 +16,14 @@ export const Dashboard = () => {
     setWatchList,
     movieBaseURL,
     setIsLoggedIn,
+    setCurrentScreen,
   } = useContext(GlobalContext);
 
   const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    setCurrentScreen('dashboard');
+  }, []);
 
   useEffect(() => {
     const handleFetchWatchList = async () => {
