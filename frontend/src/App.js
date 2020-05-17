@@ -108,6 +108,11 @@ const GlobalStyle = createGlobalStyle`
   box-sizing: inherit;
     }
 
+    body {
+      overflow: hidden;
+      background: #000;
+    }
+
   #root {
     height: 100%;
     width: 100%;
