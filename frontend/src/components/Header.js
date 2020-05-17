@@ -29,7 +29,7 @@ export const Header = () => {
             </>
           )}
           {isLoggedIn && <DesktopLink to='/dashboard'>dashboard</DesktopLink>}
-          <DesktopLink to='/about'>about</DesktopLink>
+            <DesktopLink
         </DesktopLinksContainer>
         <HamburgerContainer onClick={toggleNavbar}>
           <HamburgerIconContainer isMenuActive={isMenuActive}>

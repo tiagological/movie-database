@@ -34,7 +34,6 @@ export const NavMenu = () => {
             Dashboard
           </StyledLink>
         )}
-        <StyledLink onClick={() => navigateToRoute('/about')}>About</StyledLink>
       </LinkContainer>
     </Container>
   );
