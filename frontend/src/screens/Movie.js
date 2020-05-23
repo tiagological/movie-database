@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useRef } from 'react';
 import GlobalContext from '../context';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
@@ -6,6 +6,7 @@ import styled from 'styled-components/macro';
 import { Layout } from '../components';
 import { addToWatchList, removeFromWatchList } from '../util/session';
 import MoonLoader from 'react-spinners/MoonLoader';
+import { usePalette } from 'react-palette';
 
 export const Movie = () => {
   const { movieId } = useParams();
@@ -21,6 +22,7 @@ export const Movie = () => {
   const [movieInfo, setMovieInfo] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [movieIsInWatchList, setMovieIsInWatchList] = useState(false);
+  const [imageURL, setImageURL] = useState(null);
 
   useEffect(() => {
     setCurrentScreen('movie');
@@ -39,6 +41,15 @@ export const Movie = () => {
     getMovieInfo(movieId);
   }, [movieId]);
 
+  useEffect(() => {
+    if (movieBaseURL && movieInfo) {
+      setImageURL(`${movieBaseURL}w342${movieInfo.poster_path}`);
+      setIsLoading(false);
+    }
+  }, [movieBaseURL, movieInfo]);
+
+  const { data: colorData, loading, error: colorError } = usePalette(imageURL);
+
   // check if movie is on user watch list
 
   useEffect(() => {
@@ -51,7 +62,6 @@ export const Movie = () => {
         setMovieIsInWatchList(false);
       }
     }
-    setIsLoading(false);
   }, [watchList]);
 
   const handleAddToWatchList = async () => {
@@ -164,7 +174,7 @@ export const Movie = () => {
   }
 
   return (
-    <Container>
+    <Container colorData={colorData} colorError={colorError}>
       <Layout>
         <MovieDataContainer>
           {moviePoster}
@@ -181,12 +191,10 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  background: linear-gradient(
-    0deg,
-    rgba(0, 0, 0, 1) 0%,
-    rgba(0, 0, 0, 1) 75%,
-    rgba(98, 98, 98, 1) 100%
-  );
+  background: ${({ colorData, colorError }) =>
+    colorData && !colorError
+      ? `linear-gradient(0deg,#000, ${colorData.lightVibrant})`
+      : `linear-gradient(0deg, rgba(0, 0, 0, 1) 0%,rgba(0, 0, 0, 1) 75%,rgba(98, 98, 98, 1) 100%)`};
   background-repeat: no-repeat;
   overflow: auto;
 `;
