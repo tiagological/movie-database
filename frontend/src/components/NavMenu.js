@@ -92,6 +92,10 @@ const StyledLink = styled.button`
   border: none;
   color: #fff;
   outline: none;
+
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 const LogoutButton = styled.button`
