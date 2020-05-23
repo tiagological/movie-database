@@ -6,6 +6,7 @@ import { logout, fetchWatchList } from '../services/session';
 import MoonLoader from 'react-spinners/MoonLoader';
 import emptyListImage from '../assets/images/list-is-empty.png';
 import { AiOutlineUser } from 'react-icons/ai';
+import { Link } from 'react-router-dom';
 
 export const Dashboard = () => {
   const {
@@ -51,19 +52,24 @@ export const Dashboard = () => {
     } ${movie.runtime % 60} mins`;
 
     return (
-      <MovieDataContainer key={movie.id}>
-        <ImageWrapper>
-          <OuterContainer>
-            <InnerImgContainer>
-              <Image src={`${movieBaseURL}w342${movie.poster_path}`} />
-            </InnerImgContainer>
-          </OuterContainer>
-        </ImageWrapper>
-        <MovieInfoContainer>
-          <MovieTitle>{movie.title}</MovieTitle>
-          <Duration>{formattedDuration}</Duration>
-        </MovieInfoContainer>
-      </MovieDataContainer>
+      <Link to={`/movie/${movie.id}`}>
+        <MovieDataContainer key={movie.id}>
+          <ImageWrapper>
+            <OuterContainer>
+              <InnerImgContainer>
+                <Image
+                  src={`${movieBaseURL}w342${movie.poster_path}`}
+                  alt={movie.title}
+                />
+              </InnerImgContainer>
+            </OuterContainer>
+          </ImageWrapper>
+          <MovieInfoContainer>
+            <MovieTitle>{movie.title}</MovieTitle>
+            <Duration>{formattedDuration}</Duration>
+          </MovieInfoContainer>
+        </MovieDataContainer>
+      </Link>
     );
   });
 
@@ -92,7 +98,7 @@ export const Dashboard = () => {
           ) : (
             <>
               <WatchListTitle>Watchlist</WatchListTitle>
-              {watchList}
+              <WatchListContainer>{watchList}</WatchListContainer>
             </>
           )}
           <Button onClick={handleLogout}>Logout</Button>
@@ -121,17 +127,29 @@ const Text = styled.span`
 
 const WatchListTitle = styled.h2`
   padding: 0 3rem;
+
+  @media screen and (min-width: 1024px) {
+    padding: 0;
+  }
 `;
 
-const MovieDataContainer = styled.section`
+const WatchListContainer = styled.section`
+  @media screen and (min-width: 1024px) {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(15vw, 15vw));
+    justify-content: space-between;
+    gap: 3rem;
+  }
+`;
+
+const MovieDataContainer = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
   color: #fff;
 
-  @media screen and (min-width: 1024px) {
-    flex-direction: row;
-    padding: 0 5rem;
+  :hover {
+    cursor: pointer;
   }
 `;
 
@@ -141,6 +159,11 @@ const ImageWrapper = styled.div`
   flex-shrink: 0;
   padding: 1rem 0;
   margin: 0 2rem;
+
+  @media only screen and (min-width: 1024px) {
+    margin: 0;
+    padding: 0;
+  }
 `;
 
 const OuterContainer = styled.div`
@@ -148,6 +171,10 @@ const OuterContainer = styled.div`
   width: 25vw;
   padding-bottom: 150%;
   position: relative;
+
+  @media only screen and (min-width: 1024px) {
+    width: 15vw;
+  }
 `;
 
 const InnerImgContainer = styled.div`
@@ -171,6 +198,10 @@ const MovieInfoContainer = styled.section`
   justify-content: flex-start;
   align-items: stretch;
   margin: 0 2rem;
+
+  @media only screen and (min-width: 1024px) {
+    display: none;
+  }
 `;
 
 const MovieTitle = styled.h3``;
