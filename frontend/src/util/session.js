@@ -16,7 +16,8 @@ export const login = (user) =>
     },
   });
 
-export const logout = () => fetch('api/session', { method: 'DELETE' });
+export const logout = () =>
+  fetch(window.location.origin + '/api/session', { method: 'DELETE' });
 
 export const checkLoggedIn = async () => {
   const response = await fetch('/api/session');
