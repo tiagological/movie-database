@@ -26,12 +26,22 @@ export const signup = async (user, setErrors, setSession) => {
   setErrors(data.message);
 };
 
-export const logout = async (setSession, setErrors, setIsLoggedIn) => {
+export const logout = async (
+  setSession,
+  setErrors,
+  setIsLoggedIn,
+  setToastStatus
+) => {
   const response = await apiUtil.logout();
   const data = await response.json();
   if (response.ok) {
     setSession({ userId: null, username: null });
     setIsLoggedIn(false);
+    setToastStatus({
+      isActive: true,
+      type: 'success',
+      message: 'You have successfully logged out!',
+    });
     return;
   }
   setErrors(data.message);

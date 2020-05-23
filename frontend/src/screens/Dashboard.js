@@ -17,6 +17,7 @@ export const Dashboard = () => {
     movieBaseURL,
     setIsLoggedIn,
     setCurrentScreen,
+    setToastStatus,
   } = useContext(GlobalContext);
 
   const [isLoading, setIsLoading] = useState(true);
@@ -34,7 +35,7 @@ export const Dashboard = () => {
   }, []);
 
   const handleLogout = () => {
-    logout(setSession, setErrors, setIsLoggedIn);
+    logout(setSession, setErrors, setIsLoggedIn, setToastStatus);
   };
 
   const emptyListPlaceholder = (

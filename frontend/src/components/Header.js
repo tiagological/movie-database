@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import GlobalContext from '../context';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components/macro';
+import { logout } from '../services/session';
 import { ReactComponent as Logo } from '../assets/images/logo.svg';
 
 export const Header = () => {
@@ -10,10 +11,18 @@ export const Header = () => {
     isMenuActive,
     setIsMenuActive,
     currentScreen,
+    setSession,
+    setErrors,
+    setIsLoggedIn,
+    setToastStatus,
   } = useContext(GlobalContext);
 
   const toggleNavbar = () => {
     setIsMenuActive(!isMenuActive);
+  };
+
+  const handleLogout = () => {
+    logout(setSession, setErrors, setIsLoggedIn, setToastStatus);
   };
 
   return (
@@ -38,11 +47,16 @@ export const Header = () => {
             </>
           )}
           {isLoggedIn && (
-            <DesktopLink
-              to='/dashboard'
-              isActive={currentScreen === 'dashboard'}>
-              dashboard
-            </DesktopLink>
+            <>
+              <DesktopLink
+                to='/dashboard'
+                isActive={currentScreen === 'dashboard'}>
+                dashboard
+              </DesktopLink>
+              <DesktopLogoutButton onClick={handleLogout}>
+                logout
+              </DesktopLogoutButton>
+            </>
           )}
         </DesktopLinksContainer>
         <HamburgerContainer onClick={toggleNavbar}>
@@ -125,6 +139,20 @@ const DesktopLink = styled(Link)`
     ::after {
       width: 100%;
     }
+  }
+`;
+
+const DesktopLogoutButton = styled.button`
+  margin-right: 2rem;
+  color: #fff;
+  font-family: 'Roboto';
+  font-size: 2rem;
+  position: relative;
+  background: transparent;
+  border: none;
+
+  :hover {
+    cursor: pointer;
   }
 `;
 
