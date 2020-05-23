@@ -23,6 +23,7 @@ export const Movie = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [movieIsInWatchList, setMovieIsInWatchList] = useState(false);
   const [imageURL, setImageURL] = useState(null);
+  const [trailer, setTrailer] = useState(null);
 
   useEffect(() => {
     setCurrentScreen('movie');
@@ -35,7 +36,12 @@ export const Movie = () => {
       const response = await axios.get(`/api/movies/movie/${movie_id}`);
 
       const { data } = response;
+      const { videos } = data;
+      const firstTrailer = videos.find(
+        (video) => video.type.toLowerCase() === 'trailer'
+      );
       setMovieInfo(data);
+      setTrailer(firstTrailer);
     };
 
     getMovieInfo(movieId);
@@ -134,6 +140,11 @@ export const Movie = () => {
     }
   };
 
+  const trailerURL =
+    trailer?.site?.toLowerCase() === 'youtube'
+      ? `https://www.youtube.com/embed/${trailer.key}`
+      : null;
+
   const moviePoster = movieInfo && (
     <ImageWrapper>
       <OuterContainer>
@@ -147,14 +158,29 @@ export const Movie = () => {
   const formattedDuration =
     movieInfo &&
     `${Math.floor(movieInfo.runtime / 60)}${
-      movieInfo.runtime / 60 > 1 ? 'hrs' : 'hr'
+      movieInfo.runtime / 60 > 2 ? 'hrs' : 'hr'
     } ${movieInfo.runtime % 60} mins`;
+
+  const releaseDate = new Date(movieInfo?.release_date);
+
+  const releaseYear = releaseDate?.getFullYear();
 
   const MovieData = movieInfo && (
     <MovieInfoContainer>
-      <Title>{movieInfo.title}</Title>
+      <Title>
+        {movieInfo.title} {`(${releaseYear})`}
+      </Title>
       <Duration>{formattedDuration}</Duration>
       <Description>{movieInfo.overview}</Description>
+      {trailerURL && (
+        <MovieTrailerContainer>
+          <MovieTrailerOuterContainer>
+            <MovieTrailerInnerContainer>
+              <MovieTrailer src={trailerURL} allowFullScreen loading='lazy' />
+            </MovieTrailerInnerContainer>
+          </MovieTrailerOuterContainer>
+        </MovieTrailerContainer>
+      )}
       <ButtonContainer>
         <Button onClick={handleMovieOperation}>{`${
           movieIsInWatchList ? 'Remove from' : 'Add to'
@@ -191,6 +217,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  background: #000;
   background: ${({ colorData, colorError }) =>
     colorData && !colorError
       ? `linear-gradient(0deg,#000, ${colorData.lightVibrant})`
@@ -208,6 +235,7 @@ const MovieDataContainer = styled.section`
 
   @media screen and (min-width: 1024px) {
     flex-direction: row;
+    align-items: flex-start;
     padding: 0 5rem;
   }
 `;
@@ -248,6 +276,7 @@ const Image = styled.img`
   width: 100%;
   object-fit: cover;
   border-radius: 8px;
+  box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.9);
 `;
 
 const MovieInfoContainer = styled.section`
@@ -294,4 +323,35 @@ const LoaderContainer = styled.div`
   margin-bottom: auto;
   display: flex;
   justify-content: center;
+`;
+
+const MovieTrailerContainer = styled.div`
+  margin: 2rem 0;
+  width: 100%;
+
+  @media only screen and (min-width: 1024px) {
+    width: 50%;
+  }
+`;
+
+const MovieTrailerOuterContainer = styled.div`
+  height: 0px;
+  width: 100%;
+  padding-bottom: 62.5%;
+  position: relative;
+`;
+
+const MovieTrailerInnerContainer = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+`;
+
+const MovieTrailer = styled.iframe`
+  height: 100%;
+  width: 100%;
+  border: none;
+  border-radius: 8px;
 `;
