@@ -7,9 +7,6 @@ export const MovieCard = ({ id, poster_path, base_url }) => {
     <Link
       to={{
         pathname: `/movie/${id}`,
-        state: {
-          base_url,
-        },
       }}>
       <StyledCard>
         <ImageWrapper>
