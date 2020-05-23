@@ -107,27 +107,32 @@ function App() {
 }
 
 const GlobalStyle = createGlobalStyle`
-  html, body {
-    font-size: 62.5%;
-    margin: 0;
-    height: 100vh;
+  html {
+    height: 100%;
     width: 100%;
-    
-    box-sizing: border-box;
+    overflow-y: auto;
+    font-size: 62.5%;
 	  font-family: 'Montserrat', sans-serif;
   }
+
+  body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    background: #000;
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+
+
   *, *:before, *:after {
   box-sizing: inherit;
-    }
-
-    body {
-      overflow: hidden;
-      background: #000;
     }
 
   #root {
     height: 100%;
     width: 100%;
+    position: relative;
   }
 
   h1 {
