@@ -44,11 +44,20 @@ router.get('/movie/:movieId', async (req, res) => {
       `${process.env.API_URL}/movie/${movieId}?api_key=${process.env.API_KEY}`
     );
 
-    if (!response) {
+    const videos = await axios.get(
+      `${process.env.API_URL}/movie/${movieId}/videos?api_key=${process.env.API_KEY}`
+    );
+
+    if (!response || !videos) {
       return res.sendStatus(400);
     }
 
-    res.status(200).send(response.data);
+    const responseObject = {
+      ...response.data,
+      videos: videos.data.results,
+    };
+
+    res.status(200).send(responseObject);
   } catch (err) {
     console.log(err);
     res.status(500).send({
