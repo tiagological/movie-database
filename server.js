@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import session from 'express-session';
 import connectStore from 'connect-mongo';
 import dotenv from 'dotenv';
+import path from 'path';
 import {
   PORT,
   NODE_ENV,
@@ -27,6 +28,12 @@ mongoose
 
 const app = express();
 const MongoStore = connectStore(session);
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, 'frontend/build')));
+}
+
+console.log(process.env.NODE_ENV);
 
 app.disable('x-powered-by');
 
