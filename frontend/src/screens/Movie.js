@@ -59,7 +59,7 @@ export const Movie = () => {
   // check if movie is on user watch list
 
   useEffect(() => {
-    if (isLoggedIn && watchList.length > 0) {
+    if (isLoggedIn) {
       const filteredMovies = watchList.filter((movie) => movie.id == movieId);
 
       if (filteredMovies.length > 0) {
