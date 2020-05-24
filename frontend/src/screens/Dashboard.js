@@ -52,8 +52,8 @@ export const Dashboard = () => {
     } ${movie.runtime % 60} mins`;
 
     return (
-      <Link to={`/movie/${movie.id}`}>
-        <MovieDataContainer key={movie.id}>
+      <Link to={`/movie/${movie.id}`} key={movie.id}>
+        <MovieDataContainer>
           <ImageWrapper>
             <OuterContainer>
               <InnerImgContainer>
@@ -119,6 +119,10 @@ const EmptyListContainer = styled.div`
 const EmptyListPlaceHolder = styled.img`
   width: 100%;
   height: auto;
+
+  @media only screen and (min-width: 1024px) {
+    width: 40rem;
+  }
 `;
 
 const Text = styled.span`
@@ -253,7 +257,7 @@ const UserContainer = styled.div`
 `;
 const UserAvatar = styled(AiOutlineUser)`
   color: #fff;
-  width: 20vw;
+  width: 10rem;
   height: auto;
 `;
 
