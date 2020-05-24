@@ -116,7 +116,7 @@ const DesktopLinksContainer = styled.div`
   }
 `;
 
-const DesktopLink = styled(Link)`
+const DesktopLink = styled(({ isActive, ...props }) => <Link {...props} />)`
   margin-right: 2rem;
   color: #fff;
   font-family: 'Roboto';
