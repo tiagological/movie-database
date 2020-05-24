@@ -4,7 +4,7 @@ import styled from 'styled-components/macro';
 import { Layout } from '../components';
 import { logout, fetchWatchList } from '../services/session';
 import MoonLoader from 'react-spinners/MoonLoader';
-import emptyListImage from '../assets/images/list-is-empty.png';
+import emptyListImage from '../assets/images/empty-list-svg.svg';
 import { AiOutlineUser } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 
