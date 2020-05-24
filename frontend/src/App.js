@@ -112,7 +112,7 @@ const GlobalStyle = createGlobalStyle`
     width: 100%;
     overflow-y: auto;
     font-size: 62.5%;
-	  font-family: 'Montserrat', sans-serif;
+	  font-family: 'Roboto', 'Montserrat', sans-serif;
   }
 
   body {
@@ -158,6 +158,10 @@ const GlobalStyle = createGlobalStyle`
   a {
     text-decoration: none;
     color: inherit;
+  }
+
+  button {
+    font-family: inherit;
   }
   `;
 
