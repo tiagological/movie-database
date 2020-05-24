@@ -22,6 +22,12 @@ export const Login = () => {
     setCurrentScreen('login');
   }, []);
 
+  useEffect(() => {
+    if (errors) {
+      setErrors('');
+    }
+  }, []);
+
   const clearForm = () => {
     setEmail('');
     setPassword('');
