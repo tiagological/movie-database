@@ -11,9 +11,13 @@ export const SignUp = () => {
   const [password, setPassword] = useState('');
   const [isSubmitting, setSubmitting] = useState(false);
 
-  const { errors, setErrors, setSession, setCurrentScreen } = useContext(
-    GlobalContext
-  );
+  const {
+    errors,
+    setErrors,
+    setSession,
+    setCurrentScreen,
+    setIsLoggedIn,
+  } = useContext(GlobalContext);
 
   useEffect(() => {
     setCurrentScreen('signup');
@@ -39,7 +43,7 @@ export const SignUp = () => {
       email: e.target[1].value,
       password: e.target[2].value,
     };
-    await signup(user, setErrors, setSession);
+    await signup(user, setErrors, setSession, setIsLoggedIn);
     clearForm();
     setSubmitting(false);
   };

@@ -14,13 +14,14 @@ export const login = async (user, setErrors, setSession, setLoggedIn) => {
   setErrors(data.message);
 };
 
-export const signup = async (user, setErrors, setSession) => {
+export const signup = async (user, setErrors, setSession, setIsLoggedIn) => {
   const response = await apiUtil.signup(user);
   const data = await response.json();
 
   if (response.ok) {
     setErrors('');
     setSession(data);
+    setIsLoggedIn(true);
     return;
   }
   setErrors(data.message);
