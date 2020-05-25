@@ -61,5 +61,8 @@ app.use('/api/movies', movieRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/session', sessionRoutes);
 app.use('/api/watchlist', watchListRoutes);
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend/build/index.html'));
+});
 
 app.listen(PORT, () => console.log(`> App listening on port ${PORT}`));
