@@ -39,12 +39,12 @@ function App() {
       const response = await axios.get('/api/movies/configuration');
       const {
         data: {
-          images: { base_url },
+          images: { secure_base_url },
         },
       } = response;
 
-      if (base_url) {
-        setMovieBaseURL(base_url);
+      if (secure_base_url) {
+        setMovieBaseURL(secure_base_url);
       }
     };
 
