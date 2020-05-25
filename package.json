@@ -4,6 +4,7 @@
   "description": "Movie database backend",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "client": "cd frontend && yarn start",
     "server": "nodemon --inspect index.js",
     "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",

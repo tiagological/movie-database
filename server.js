@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import session from 'express-session';
 import connectStore from 'connect-mongo';
 import dotenv from 'dotenv';
+import path from 'path';
 import {
   PORT,
   NODE_ENV,
@@ -28,10 +29,17 @@ mongoose
 const app = express();
 const MongoStore = connectStore(session);
 
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, 'frontend/build')));
+}
+
+console.log(process.env.NODE_ENV);
+
 app.disable('x-powered-by');
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.set('trust proxy', 1);
 app.use(
   session({
     name: SESS_NAME,
@@ -54,5 +62,8 @@ app.use('/api/movies', movieRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/session', sessionRoutes);
 app.use('/api/watchlist', watchListRoutes);
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend/build/index.html'));
+});
 
 app.listen(PORT, () => console.log(`> App listening on port ${PORT}`));

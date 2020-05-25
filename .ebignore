@@ -1,0 +1,16 @@
+.git/
+node_modules/
+.env
+frontend/node_modules/
+frontend/public/
+frontend/src/
+frontend/.gitignore
+frontend/package.json
+frontend/README.md
+frontend/yarn.lock
+
+# debug
+
+/frontend/npm-debug.log*
+/frontend/yarn-debug.log*
+/frontend/yarn-error.log*
