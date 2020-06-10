@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Layout } from '../components';
 import styled from 'styled-components';
 import { signup } from '../services/session';
+import Helmet from 'react-helmet';
 
 export const SignUp = () => {
   const [username, setUsername] = useState('');
@@ -16,7 +17,7 @@ export const SignUp = () => {
     setErrors,
     setSession,
     setCurrentScreen,
-    setIsLoggedIn,
+    setIsLoggedIn
   } = useContext(GlobalContext);
 
   useEffect(() => {
@@ -41,7 +42,7 @@ export const SignUp = () => {
     const user = {
       username: e.target[0].value,
       email: e.target[1].value,
-      password: e.target[2].value,
+      password: e.target[2].value
     };
     await signup(user, setErrors, setSession, setIsLoggedIn);
     clearForm();
@@ -52,6 +53,13 @@ export const SignUp = () => {
 
   return (
     <Container>
+      <Helmet>
+        <title>Sign Up | Movie DB</title>
+        <meta
+          name='description'
+          content='Sign up and create an account to start adding to your watchlist!'
+        />
+      </Helmet>
       <Layout>
         <InnerContainer>
           <Title>Sign Up</Title>

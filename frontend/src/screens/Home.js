@@ -5,6 +5,7 @@ import { Layout, MovieList } from '../components';
 import axios from 'axios';
 import { useQuery } from 'react-query';
 import MoonLoader from 'react-spinners/MoonLoader';
+import Helmet from 'react-helmet';
 
 export const Home = () => {
   const { setCurrentScreen } = useContext(GlobalContext);
@@ -59,6 +60,13 @@ export const Home = () => {
 
   return (
     <Container>
+      <Helmet>
+        <title>Home | Movie DB</title>
+        <meta
+          name='description'
+          content='Explore the most popular movies right now. Create an account to add your favourites to your watchlist.'
+        />
+      </Helmet>
       <Layout>
         {configData?.secure_base_url && initialMoviesData && (
           <MovieList

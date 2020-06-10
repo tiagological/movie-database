@@ -14,7 +14,7 @@ export const Header = () => {
     setSession,
     setErrors,
     setIsLoggedIn,
-    setToastStatus,
+    setToastStatus
   } = useContext(GlobalContext);
 
   const toggleNavbar = () => {
@@ -42,7 +42,7 @@ export const Header = () => {
                 login
               </DesktopLink>
               <DesktopLink to='/signup' isActive={currentScreen === 'signup'}>
-                signup
+                sign up
               </DesktopLink>
             </>
           )}

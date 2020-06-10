@@ -27,6 +27,7 @@
     "express-session": "^1.17.1",
     "is-empty": "^1.2.0",
     "mongoose": "^5.9.11",
+    "react-helmet": "^6.1.0",
     "react-palette": "^1.0.1",
     "validator": "^13.0.0"
   },

@@ -7,6 +7,7 @@ import MoonLoader from 'react-spinners/MoonLoader';
 import emptyListImage from '../assets/images/empty-list-svg.svg';
 import { AiOutlineUser } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
+import Helmet from 'react-helmet';
 
 export const Dashboard = () => {
   const {
@@ -18,7 +19,7 @@ export const Dashboard = () => {
     movieBaseURL,
     setIsLoggedIn,
     setCurrentScreen,
-    setToastStatus,
+    setToastStatus
   } = useContext(GlobalContext);
 
   const [isLoading, setIsLoading] = useState(true);
@@ -87,6 +88,9 @@ export const Dashboard = () => {
 
   return (
     <Container>
+      <Helmet>
+        <title>Dashboard | Movie DB</title>
+      </Helmet>
       <Layout>
         <InnerContainer>
           <UserContainer>

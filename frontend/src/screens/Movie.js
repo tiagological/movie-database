@@ -7,6 +7,7 @@ import { Layout } from '../components';
 import { addToWatchList, removeFromWatchList } from '../util/session';
 import MoonLoader from 'react-spinners/MoonLoader';
 import { usePalette } from 'react-palette';
+import Helmet from 'react-helmet';
 
 export const Movie = () => {
   const { movieId } = useParams();
@@ -201,6 +202,13 @@ export const Movie = () => {
 
   return (
     <Container colorData={colorData} colorError={colorError}>
+      <Helmet>
+        <title>{`${movieInfo?.title} | Movie DB`}</title>
+        <meta
+          name='description'
+          content={`Find out more about ${movieInfo?.title}, watch the trailer, and add it to your watchlist!`}
+        />
+      </Helmet>
       <Layout>
         <MovieDataContainer>
           {moviePoster}

@@ -12,7 +12,7 @@ export const NavMenu = () => {
     setSession,
     setErrors,
     setIsLoggedIn,
-    setToastStatus,
+    setToastStatus
   } = useContext(GlobalContext);
 
   const history = useHistory();
@@ -37,7 +37,7 @@ export const NavMenu = () => {
               login
             </StyledLink>
             <StyledLink onClick={() => navigateToRoute('/signup')}>
-              sign Up
+              sign up
             </StyledLink>
           </>
         )}
