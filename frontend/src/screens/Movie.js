@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext, useRef } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import GlobalContext from '../context';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
@@ -16,7 +16,7 @@ export const Movie = () => {
     watchList,
     setWatchList,
     setToastStatus,
-    setCurrentScreen,
+    setCurrentScreen
   } = useContext(GlobalContext);
 
   const [movieInfo, setMovieInfo] = useState(null);
@@ -75,7 +75,7 @@ export const Movie = () => {
       return setToastStatus({
         isActive: true,
         type: 'error',
-        message: 'Please log in to add to your watch list',
+        message: 'Please log in to add to your watch list'
       });
     }
     const { id, title, poster_path, runtime, release_date } = movieInfo;
@@ -84,7 +84,7 @@ export const Movie = () => {
       title,
       poster_path,
       runtime,
-      release_date,
+      release_date
     };
     const response = await addToWatchList(movie);
     const data = await response.json();
@@ -92,7 +92,7 @@ export const Movie = () => {
       setToastStatus({
         isActive: true,
         type: 'success',
-        message: 'Added to watch list!',
+        message: 'Added to watch list!'
       });
       setWatchList([...watchList, data]);
       return;
@@ -100,7 +100,7 @@ export const Movie = () => {
     return setToastStatus({
       isActive: true,
       type: 'error',
-      message: data.message,
+      message: data.message
     });
   };
 
@@ -109,7 +109,7 @@ export const Movie = () => {
       return setToastStatus({
         isActive: true,
         type: 'error',
-        message: 'Please log in to remove from your watch list',
+        message: 'Please log in to remove from your watch list'
       });
     }
     const { id } = movieInfo;
@@ -119,7 +119,7 @@ export const Movie = () => {
       setToastStatus({
         isActive: true,
         type: 'success',
-        message: 'Removed from watch list',
+        message: 'Removed from watch list'
       });
       const updatedWatchList = watchList.filter((movie) => movie.id !== id);
       setWatchList(updatedWatchList);
@@ -128,7 +128,7 @@ export const Movie = () => {
     return setToastStatus({
       isActive: true,
       type: 'error',
-      message: data.message,
+      message: data.message
     });
   };
 
