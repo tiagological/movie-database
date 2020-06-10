@@ -16,7 +16,7 @@ export const Home = () => {
   const getConfig = async () => {
     const response = await axios.get('/api/movies/configuration');
     const {
-      data: { images },
+      data: { images }
     } = response;
     return images;
   };
@@ -24,7 +24,7 @@ export const Home = () => {
   const getPopularMovies = async () => {
     const response = await axios.get('/api/movies');
     const {
-      data: { results },
+      data: { results }
     } = response;
     return results;
   };
@@ -32,20 +32,30 @@ export const Home = () => {
   const {
     status: configStatus,
     data: configData,
-    error: configError,
+    error: configError
   } = useQuery('movie-config', getConfig, {
     staleTime: 1000 * 60 * 30,
-    refetchOnWindowFocus: false,
+    refetchOnWindowFocus: false
   });
 
   const {
     status: initialMoviesStatus,
     data: initialMoviesData,
-    error: initialMoviesError,
+    error: initialMoviesError
   } = useQuery('initial-movies', getPopularMovies, {
     staleTime: 1000 * 60 * 30,
-    refetchOnWindowFocus: false,
+    refetchOnWindowFocus: false
   });
+
+  if (initialMoviesStatus === 'loading') {
+    return (
+      <Container>
+        <LoaderContainer>
+          <MoonLoader color='#fff' css='opacity: 1;' />
+        </LoaderContainer>
+      </Container>
+    );
+  }
 
   return (
     <Container>
