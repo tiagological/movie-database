@@ -6,41 +6,42 @@ const Schema = mongoose.Schema;
 const MovieSchema = new Schema({
   id: {
     type: Number,
-    required: true,
+    required: true
   },
   title: {
     type: String,
-    required: true,
+    required: true
   },
   poster_path: {
     type: String,
-    required: true,
+    required: true
   },
   runtime: {
     type: Number,
-    required: true,
+    required: true
   },
   release_date: {
     type: String,
-    required: true,
-  },
+    required: true
+  }
 });
 
 const UserSchema = new Schema(
   {
     username: {
       type: String,
-      required: true,
+      required: true
     },
     email: {
       type: String,
       required: true,
+      unique: true
     },
     password: {
       type: String,
-      required: true,
+      required: true
     },
-    watch_list: [MovieSchema],
+    watch_list: [MovieSchema]
   },
   { timestamps: true }
 );

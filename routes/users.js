@@ -12,6 +12,12 @@ router.post('', async (req, res) => {
 
     await signUp.validateAsync({ username, email, password });
 
+    const user = await User.findOne({ email });
+
+    if (user) {
+      throw new Error('That email already exists. Please try another one.');
+    }
+
     const newUser = new User({ username, email, password });
 
     const sessionUser = sessionizeUser(newUser);
