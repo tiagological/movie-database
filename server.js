@@ -10,13 +10,13 @@ import {
   MONGO_URI,
   SESS_NAME,
   SESS_SECRET,
-  SESS_LIFETIME,
+  SESS_LIFETIME
 } from './config';
 import {
   movieRoutes,
   userRoutes,
   sessionRoutes,
-  watchListRoutes,
+  watchListRoutes
 } from './routes';
 
 dotenv.config();
@@ -33,8 +33,6 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, 'frontend/build')));
 }
 
-console.log(process.env.NODE_ENV);
-
 app.disable('x-powered-by');
 
 app.use(express.urlencoded({ extended: false }));
@@ -49,13 +47,13 @@ app.use(
     store: new MongoStore({
       mongooseConnection: mongoose.connection,
       collection: 'session',
-      ttl: parseInt(SESS_LIFETIME) / 1000,
+      ttl: parseInt(SESS_LIFETIME) / 1000
     }),
     cookie: {
       sameSite: true,
       secure: NODE_ENV === 'production',
-      maxAge: parseInt(SESS_LIFETIME),
-    },
+      maxAge: parseInt(SESS_LIFETIME)
+    }
   })
 );
 app.use('/api/movies', movieRoutes);
