@@ -9,6 +9,7 @@ import { fetchWatchList } from './services/session';
 import GlobalContext from './context';
 import axios from 'axios';
 import MoonLoader from 'react-spinners/MoonLoader';
+import { ReactQueryDevtools } from 'react-query-devtools';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -21,7 +22,7 @@ function App() {
   const [toastStatus, setToastStatus] = useState({
     isActive: false,
     type: null,
-    message: null,
+    message: null
   });
   const [currentScreen, setCurrentScreen] = useState(null);
 
@@ -39,8 +40,8 @@ function App() {
       const response = await axios.get('/api/movies/configuration');
       const {
         data: {
-          images: { secure_base_url },
-        },
+          images: { secure_base_url }
+        }
       } = response;
 
       if (secure_base_url) {
@@ -73,36 +74,39 @@ function App() {
   }
 
   return (
-    <GlobalContext.Provider
-      value={{
-        errors,
-        setErrors,
-        isLoggedIn,
-        setIsLoggedIn,
-        session,
-        setSession,
-        watchList,
-        setWatchList,
-        movieBaseURL,
-        isMenuActive,
-        setIsMenuActive,
-        toastStatus,
-        setToastStatus,
-        currentScreen,
-        setCurrentScreen,
-      }}>
-      <GlobalStyle />
-      <Toast />
-      <Router>
-        <Switch>
-          <Route exact path='/' component={Home} />
-          <Route path='/movie/:movieId' component={Movie} />
-          <AuthRoute path='/signup' component={SignUp} />
-          <AuthRoute path='/login' component={Login} />
-          <ProtectedRoute path='/dashboard' component={Dashboard} />
-        </Switch>
-      </Router>
-    </GlobalContext.Provider>
+    <>
+      <ReactQueryDevtools initialIsOpen={false} />
+      <GlobalContext.Provider
+        value={{
+          errors,
+          setErrors,
+          isLoggedIn,
+          setIsLoggedIn,
+          session,
+          setSession,
+          watchList,
+          setWatchList,
+          movieBaseURL,
+          isMenuActive,
+          setIsMenuActive,
+          toastStatus,
+          setToastStatus,
+          currentScreen,
+          setCurrentScreen
+        }}>
+        <GlobalStyle />
+        <Toast />
+        <Router>
+          <Switch>
+            <Route exact path='/' component={Home} />
+            <Route path='/movie/:movieId' component={Movie} />
+            <AuthRoute path='/signup' component={SignUp} />
+            <AuthRoute path='/login' component={Login} />
+            <ProtectedRoute path='/dashboard' component={Dashboard} />
+          </Switch>
+        </Router>
+      </GlobalContext.Provider>
+    </>
   );
 }
 

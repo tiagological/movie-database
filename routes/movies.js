@@ -3,9 +3,11 @@ import axios from 'axios';
 const router = express.Router();
 
 router.get('', async (req, res) => {
+  const { page } = req.query;
+
   try {
     const response = await axios.get(
-      `${process.env.API_URL}/discover/movie?sort_by=popularity.desc&api_key=${process.env.API_KEY}`
+      `${process.env.API_URL}/discover/movie?sort_by=popularity.desc&api_key=${process.env.API_KEY}&page=${page}`
     );
     if (!response) {
       return res.sendStatus(400);
@@ -54,14 +56,14 @@ router.get('/movie/:movieId', async (req, res) => {
 
     const responseObject = {
       ...response.data,
-      videos: videos.data.results,
+      videos: videos.data.results
     };
 
     res.status(200).send(responseObject);
   } catch (err) {
     console.log(err);
     res.status(500).send({
-      message: 'Unable to get movies detail due to an internal error',
+      message: 'Unable to get movies detail due to an internal error'
     });
   }
 });

@@ -3,52 +3,36 @@ import GlobalContext from '../context';
 import styled from 'styled-components/macro';
 import { Layout, MovieList } from '../components';
 import axios from 'axios';
-import { useQuery } from 'react-query';
+import { useQuery, useInfiniteQuery } from 'react-query';
 import MoonLoader from 'react-spinners/MoonLoader';
 import Helmet from 'react-helmet';
 
 export const Home = () => {
-  const { setCurrentScreen } = useContext(GlobalContext);
+  const { setCurrentScreen, movieBaseURL } = useContext(GlobalContext);
 
   useEffect(() => {
     setCurrentScreen('home');
   }, []);
 
-  const getConfig = async () => {
-    const response = await axios.get('/api/movies/configuration');
-    const {
-      data: { images }
-    } = response;
-    return images;
-  };
-
-  const getPopularMovies = async () => {
-    const response = await axios.get('/api/movies');
-    const {
-      data: { results }
-    } = response;
-    return results;
+  const getMovies = async (key, pageNum = 1) => {
+    const response = await axios.get(`/api/movies?page=${pageNum}`);
+    return response.data;
   };
 
   const {
-    status: configStatus,
-    data: configData,
-    error: configError
-  } = useQuery('movie-config', getConfig, {
+    status: moviesStatus,
+    data: moviesData,
+    isFetching: isFetchingMovies,
+    isFetchingMore,
+    fetchMore,
+    canFetchMore
+  } = useInfiniteQuery('movies', getMovies, {
+    getFetchMore: (lastGroup, allGroups) => lastGroup.page + 1,
     staleTime: 1000 * 60 * 30,
     refetchOnWindowFocus: false
   });
 
-  const {
-    status: initialMoviesStatus,
-    data: initialMoviesData,
-    error: initialMoviesError
-  } = useQuery('initial-movies', getPopularMovies, {
-    staleTime: 1000 * 60 * 30,
-    refetchOnWindowFocus: false
-  });
-
-  if (initialMoviesStatus === 'loading') {
+  if (moviesStatus === 'loading') {
     return (
       <Container>
         <LoaderContainer>
@@ -68,12 +52,17 @@ export const Home = () => {
         />
       </Helmet>
       <Layout>
-        {configData?.secure_base_url && initialMoviesData && (
-          <MovieList
-            movies={initialMoviesData}
-            secure_base_url={configData.secure_base_url}
-          />
+        {movieBaseURL && moviesData && (
+          <MovieList movieGroups={moviesData} secure_base_url={movieBaseURL} />
         )}
+        <ButtonContainer>
+          <Button
+            onClick={() => fetchMore()}
+            disabled={isFetchingMore}
+            isVisible={!!moviesData}>
+            Load More
+          </Button>
+        </ButtonContainer>
       </Layout>
     </Container>
   );
@@ -100,4 +89,32 @@ const LoaderContainer = styled.div`
   margin-bottom: auto;
   display: flex;
   justify-content: center;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const Button = styled.button`
+  width: 100%;
+  margin: 2rem;
+  padding: 1.5rem;
+  font-size: 2rem;
+  background: transparent;
+  color: #fff;
+  border: 1px solid white;
+  border-radius: 8px;
+  opacity: ${({ isFetchingMore, isVisible }) =>
+    !isVisible ? 0 : isFetchingMore && isVisible ? 0.5 : 1};
+
+  :hover {
+    cursor: ${({ isFetchingMore }) =>
+      isFetchingMore ? 'not-allowed' : 'pointer'};
+  }
+
+  :focus {
+    outline: 3px solid turquoise;
+  }
 `;
