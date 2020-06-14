@@ -8,19 +8,11 @@ import MoonLoader from 'react-spinners/MoonLoader';
 import Helmet from 'react-helmet';
 
 export const Home = () => {
-  const { setCurrentScreen } = useContext(GlobalContext);
+  const { setCurrentScreen, movieBaseURL } = useContext(GlobalContext);
 
   useEffect(() => {
     setCurrentScreen('home');
   }, []);
-
-  const getConfig = async () => {
-    const response = await axios.get('/api/movies/configuration');
-    const {
-      data: { images }
-    } = response;
-    return images;
-  };
 
   const getPopularMovies = async () => {
     const response = await axios.get('/api/movies');
@@ -29,15 +21,6 @@ export const Home = () => {
     } = response;
     return results;
   };
-
-  const {
-    status: configStatus,
-    data: configData,
-    error: configError
-  } = useQuery('movie-config', getConfig, {
-    staleTime: 1000 * 60 * 30,
-    refetchOnWindowFocus: false
-  });
 
   const {
     status: initialMoviesStatus,
@@ -68,10 +51,10 @@ export const Home = () => {
         />
       </Helmet>
       <Layout>
-        {configData?.secure_base_url && initialMoviesData && (
+        {movieBaseURL && initialMoviesData && (
           <MovieList
             movies={initialMoviesData}
-            secure_base_url={configData.secure_base_url}
+            secure_base_url={movieBaseURL}
           />
         )}
       </Layout>
