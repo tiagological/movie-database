@@ -53,7 +53,7 @@ router.post('/add', async (req, res) => {
         title,
         poster_path,
         runtime,
-        release_date,
+        release_date
       });
 
       const movie_data = { id, title, poster_path, runtime, release_date };

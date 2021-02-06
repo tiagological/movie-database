@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "description": "Movie database backend",
   "main": "index.js",
+  "engines": {
+    "node": "12.10.0",
+    "npm": "6.10.3",
+    "yarn": "1.19.1"
+  },
   "scripts": {
     "start": "node index.js",
     "client": "cd frontend && yarn start",
@@ -34,5 +39,9 @@
     "ignore": [
       "frontend/*"
     ]
+  },
+  "prettier": {
+    "singleQuote": true,
+    "trailingComma": "none"
   }
 }

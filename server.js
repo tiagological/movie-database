@@ -5,14 +5,6 @@ import connectStore from 'connect-mongo';
 import dotenv from 'dotenv';
 import path from 'path';
 import {
-  PORT,
-  NODE_ENV,
-  MONGO_URI,
-  SESS_NAME,
-  SESS_SECRET,
-  SESS_LIFETIME
-} from './config';
-import {
   movieRoutes,
   userRoutes,
   sessionRoutes,
@@ -20,6 +12,15 @@ import {
 } from './routes';
 
 dotenv.config();
+
+const {
+  PORT,
+  NODE_ENV,
+  MONGO_URI,
+  SESS_NAME,
+  SESS_SECRET,
+  SESS_LIFETIME
+} = process.env;
 
 mongoose
   .connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })

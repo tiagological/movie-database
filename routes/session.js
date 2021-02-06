@@ -3,7 +3,8 @@ import User from '../models/user';
 import Joi from '@hapi/joi';
 import { signIn } from '../validations/user';
 import { parseError, sessionizeUser } from '../util/helpers';
-import { SESS_NAME } from '../config';
+
+const { SESS_NAME } = process.env;
 
 const router = express.Router();
 
