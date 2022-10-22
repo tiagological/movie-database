@@ -4,14 +4,14 @@
   "description": "Movie database backend",
   "main": "index.js",
   "engines": {
-    "node": "12.10.0",
+    "node": "16.8.0",
     "npm": "6.10.3",
     "yarn": "1.19.1"
   },
   "scripts": {
     "start": "node index.js",
     "client": "cd frontend && yarn start",
-    "server": "nodemon --inspect index.js",
+    "server": "index.js",
     "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
     "debug": "nodemon --inspect index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
