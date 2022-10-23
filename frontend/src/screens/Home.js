@@ -3,7 +3,7 @@ import GlobalContext from '../context';
 import styled from 'styled-components/macro';
 import { Layout, MovieList } from '../components';
 import axios from 'axios';
-import { useQuery, useInfiniteQuery } from 'react-query';
+import { useInfiniteQuery } from 'react-query';
 import MoonLoader from 'react-spinners/MoonLoader';
 import Helmet from 'react-helmet';
 
@@ -25,11 +25,11 @@ export const Home = () => {
     isFetching: isFetchingMovies,
     isFetchingMore,
     fetchMore,
-    canFetchMore
+    canFetchMore,
   } = useInfiniteQuery('movies', getMovies, {
     getFetchMore: (lastGroup, allGroups) => lastGroup.page + 1,
     staleTime: 1000 * 60 * 30,
-    refetchOnWindowFocus: false
+    refetchOnWindowFocus: false,
   });
 
   if (moviesStatus === 'loading') {
@@ -59,7 +59,8 @@ export const Home = () => {
           <Button
             onClick={() => fetchMore()}
             disabled={isFetchingMore}
-            isVisible={!!moviesData}>
+            isVisible={!!moviesData}
+          >
             Load More
           </Button>
         </ButtonContainer>

@@ -34,6 +34,10 @@ const Container = styled.div`
   justify-content: space-evenly;
   gap: 0.25rem;
 
+  @media screen and (min-width: 576px) {
+    grid-template-columns: repeat(auto-fill, minmax(20vw, 20vw));
+  }
+
   @media screen and (min-width: 1024px) {
     grid-template-columns: repeat(auto-fill, minmax(15vw, 15vw));
   }
