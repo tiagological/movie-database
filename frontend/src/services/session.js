@@ -10,7 +10,6 @@ export const login = async (user, setErrors, setSession, setLoggedIn) => {
     setLoggedIn(true);
     return;
   }
-  debugger;
   setErrors(data.message);
 };
 

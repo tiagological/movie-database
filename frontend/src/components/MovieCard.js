@@ -7,7 +7,8 @@ export const MovieCard = ({ id, poster_path, base_url }) => {
     <Link
       to={{
         pathname: `/movie/${id}`,
-      }}>
+      }}
+    >
       <StyledCard>
         <ImageWrapper>
           <OuterContainer>
@@ -24,6 +25,10 @@ export const MovieCard = ({ id, poster_path, base_url }) => {
 const StyledCard = styled.div`
   width: 45vw;
   margin: 1rem 0;
+
+  @media screen and (min-width: 576px) {
+    width: 20vw;
+  }
 
   @media screen and (min-width: 1024px) {
     width: 15vw;

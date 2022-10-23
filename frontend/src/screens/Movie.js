@@ -17,7 +17,7 @@ export const Movie = () => {
     watchList,
     setWatchList,
     setToastStatus,
-    setCurrentScreen
+    setCurrentScreen,
   } = useContext(GlobalContext);
 
   const [movieInfo, setMovieInfo] = useState(null);
@@ -25,6 +25,7 @@ export const Movie = () => {
   const [movieIsInWatchList, setMovieIsInWatchList] = useState(false);
   const [imageURL, setImageURL] = useState(null);
   const [trailer, setTrailer] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     setCurrentScreen('movie');
@@ -34,15 +35,20 @@ export const Movie = () => {
 
   useEffect(() => {
     const getMovieInfo = async (movie_id) => {
-      const response = await axios.get(`/api/movies/movie/${movie_id}`);
+      try {
+        const response = await axios.get(`/api/movies/movie/${movie_id}`);
 
-      const { data } = response;
-      const { videos } = data;
-      const firstTrailer = videos.find(
-        (video) => video.type.toLowerCase() === 'trailer'
-      );
-      setMovieInfo(data);
-      setTrailer(firstTrailer);
+        const { data } = response;
+        const { videos } = data;
+        const firstTrailer = videos.find(
+          (video) => video.type.toLowerCase() === 'trailer'
+        );
+        setMovieInfo(data);
+        setTrailer(firstTrailer);
+      } catch (err) {
+        setError(true);
+        setIsLoading(false);
+      }
     };
 
     getMovieInfo(movieId);
@@ -76,7 +82,7 @@ export const Movie = () => {
       return setToastStatus({
         isActive: true,
         type: 'error',
-        message: 'Please log in to add to your watch list'
+        message: 'Please log in to add to your watch list',
       });
     }
     const { id, title, poster_path, runtime, release_date } = movieInfo;
@@ -85,7 +91,7 @@ export const Movie = () => {
       title,
       poster_path,
       runtime,
-      release_date
+      release_date,
     };
     const response = await addToWatchList(movie);
     const data = await response.json();
@@ -93,7 +99,7 @@ export const Movie = () => {
       setToastStatus({
         isActive: true,
         type: 'success',
-        message: 'Added to watch list!'
+        message: 'Added to watch list!',
       });
       setWatchList([...watchList, data]);
       return;
@@ -101,7 +107,7 @@ export const Movie = () => {
     return setToastStatus({
       isActive: true,
       type: 'error',
-      message: data.message
+      message: data.message,
     });
   };
 
@@ -110,7 +116,7 @@ export const Movie = () => {
       return setToastStatus({
         isActive: true,
         type: 'error',
-        message: 'Please log in to remove from your watch list'
+        message: 'Please log in to remove from your watch list',
       });
     }
     const { id } = movieInfo;
@@ -120,7 +126,7 @@ export const Movie = () => {
       setToastStatus({
         isActive: true,
         type: 'success',
-        message: 'Removed from watch list'
+        message: 'Removed from watch list',
       });
       const updatedWatchList = watchList.filter((movie) => movie.id !== id);
       setWatchList(updatedWatchList);
@@ -129,7 +135,7 @@ export const Movie = () => {
     return setToastStatus({
       isActive: true,
       type: 'error',
-      message: data.message
+      message: data.message,
     });
   };
 
@@ -140,6 +146,18 @@ export const Movie = () => {
       handleAddToWatchList();
     }
   };
+
+  if (error) {
+    return (
+      <Container>
+        <ErrorContainer>
+          <ErrorText>
+            Oops! Something went wrong. Please try again later.
+          </ErrorText>
+        </ErrorContainer>
+      </Container>
+    );
+  }
 
   const trailerURL =
     trailer?.site?.toLowerCase() === 'youtube'
@@ -241,7 +259,7 @@ const MovieDataContainer = styled.section`
   align-items: center;
   color: #fff;
 
-  @media screen and (min-width: 1024px) {
+  @media screen and (min-width: 768px) {
     flex-direction: row;
     align-items: flex-start;
     padding: 0 5rem;
@@ -250,11 +268,11 @@ const MovieDataContainer = styled.section`
 
 const ImageWrapper = styled.div`
   position: relative;
-  width: 100%;
+  width: min(200px, 100%);
   padding: 1rem;
   margin: 0 2rem;
 
-  @media screen and (min-width: 1024px) {
+  @media screen and (min-width: 768px) {
     width: auto;
     flex-shrink: 0;
   }
@@ -266,7 +284,7 @@ const OuterContainer = styled.div`
   padding-bottom: 150%;
   position: relative;
 
-  @media screen and (min-width: 1024px) {
+  @media screen and (min-width: 768px) {
     width: 300px;
   }
 `;
@@ -321,7 +339,7 @@ const Button = styled.button`
     cursor: pointer;
   }
 
-  @media only screen and (min-width: 1024px) {
+  @media only screen and (min-width: 768px) {
     max-width: 400px;
   }
 `;
@@ -337,7 +355,7 @@ const MovieTrailerContainer = styled.div`
   margin: 2rem 0;
   width: 100%;
 
-  @media only screen and (min-width: 1024px) {
+  @media only screen and (min-width: 768px) {
     width: 50%;
   }
 `;
@@ -362,4 +380,17 @@ const MovieTrailer = styled.iframe`
   width: 100%;
   border: none;
   border-radius: 8px;
+`;
+
+const ErrorContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  align-self: stretch;
+`;
+
+const ErrorText = styled.p`
+  color: #ffffff;
+  font-size: 2.4rem;
 `;
